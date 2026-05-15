@@ -1,56 +1,297 @@
 ---
-interface Row {
-  feature: string;
-  product: boolean;
-  competitor: boolean;
-}
+import CtaButton from "./CtaButton.astro";
+
 interface Props {
   title: string;
-  productLabel: string;
-  competitorLabel: string;
-  rows: Row[];
+  description: string[];
+  banka: string;
+  course: { title: string; body: string; cta: { label: string; href: string } };
+  portion: { title: string; body: string };
 }
-const { title, productLabel, competitorLabel, rows } = Astro.props;
+const { title, description, banka, course, portion } = Astro.props;
 ---
 
-<section id="comparison" class="container-page py-16 lg:py-24">
-  <div class="text-center mb-12 lg:mb-16">
-    <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep">{title}</h2>
-  </div>
+<section id="comparison" class="cmp-section">
+  <div class="container-page cmp-grid">
+    <header class="cmp-head" data-reveal>
+      <h2 class="cmp-title">{title}</h2>
+      <div class="cmp-desc">
+        {description.map((p) => <p>{p}</p>)}
+      </div>
+    </header>
 
-  <div class="overflow-x-auto -mx-4 lg:mx-0">
-    <div class="min-w-[640px] grid grid-cols-[2fr_1fr_1fr] gap-px bg-line rounded-card overflow-hidden ring-1 ring-line shadow-card">
-      <div class="bg-white px-6 py-4 text-xs uppercase tracking-wider font-medium text-muted">Свойство</div>
-      <div class="bg-brand text-white px-6 py-4 text-center font-semibold">{productLabel}</div>
-      <div class="bg-white px-6 py-4 text-center font-semibold text-ink">{competitorLabel}</div>
+    <picture class="cmp-banka" aria-hidden="true">
+      <source media="(max-width: 1023px)" srcset="/img/banka-straight.webp" type="image/webp" />
+      <source srcset={banka} type="image/webp" />
+      <img src="/img/banka.png" alt="" width="600" height="600" loading="lazy" decoding="async" />
+    </picture>
 
-      {rows.map((r) => (
-        <>
-          <div class="bg-white px-6 py-5 text-ink font-medium">{r.feature}</div>
-          <div class="bg-brand/5 px-6 py-5 grid place-items-center">
-            {r.product ? (
-              <svg class="w-6 h-6 text-brand" viewBox="0 0 24 24" fill="none" aria-label="Есть">
-                <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            ) : (
-              <svg class="w-5 h-5 text-muted" viewBox="0 0 24 24" fill="none" aria-label="Нет">
-                <path d="M6 6 18 18M6 18 18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              </svg>
-            )}
-          </div>
-          <div class="bg-white px-6 py-5 grid place-items-center">
-            {r.competitor ? (
-              <svg class="w-6 h-6 text-muted" viewBox="0 0 24 24" fill="none" aria-label="Есть">
-                <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            ) : (
-              <svg class="w-5 h-5 text-muted" viewBox="0 0 24 24" fill="none" aria-label="Нет">
-                <path d="M6 6 18 18M6 18 18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              </svg>
-            )}
-          </div>
-        </>
-      ))}
-    </div>
+    <aside class="cmp-course" data-reveal>
+      <img src="/img/icon-atom.svg" alt="" aria-hidden="true" class="cmp-icon" width="40" height="40" />
+      <h3 class="cmp-course__title">{course.title}</h3>
+      <p class="cmp-course__body">{course.body}</p>
+      <CtaButton label={course.cta.label} href={course.cta.href} variant="brand" size="lg" />
+    </aside>
+
+    <aside class="cmp-portion" data-reveal>
+      <img src="/img/icon-molecule.svg" alt="" aria-hidden="true" class="cmp-icon" width="40" height="40" />
+      <h3 class="cmp-portion__title">{portion.title}</h3>
+      <p class="cmp-portion__body">{portion.body}</p>
+    </aside>
+
+    <hr class="cmp-line cmp-line--left" aria-hidden="true" data-cmp-line-left />
+    <hr class="cmp-line cmp-line--right" aria-hidden="true" data-cmp-line-right />
   </div>
 </section>
+
+<style>
+  .cmp-section {
+    background: #f3f3f3;
+    padding-block: clamp(80px, 12vh, 160px);
+  }
+  .cmp-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 600px) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: clamp(24px, 4vw, 80px);
+    row-gap: clamp(40px, 8vh, 80px);
+    align-items: start;
+  }
+  .cmp-head {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 600px;
+  }
+  .cmp-title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #1c1c1c;
+  }
+  .cmp-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #808080;
+    max-width: 600px;
+  }
+  .cmp-banka {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-self: center;
+    display: block;
+    width: 100%;
+    max-width: 440px;
+  }
+  .cmp-banka img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: rotate(-2deg);
+    filter: drop-shadow(0 30px 60px rgba(16, 42, 68, 0.18));
+    animation: cmp-banka-float 6s ease-in-out infinite;
+  }
+  @keyframes cmp-banka-float {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(1deg) translateY(-18px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cmp-banka img { animation: none; }
+  }
+  .cmp-course {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    align-self: center;
+    max-width: 600px;
+  }
+  .cmp-icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin-bottom: 32px;
+  }
+  .cmp-divider {
+    width: 908px;
+    max-width: 100%;
+    height: 2px;
+    border: 0;
+    background: #DAE2EA;
+    margin: 0;
+  }
+  .cmp-portion {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    align-self: end;
+    max-width: 597px;
+  }
+  .cmp-line {
+    position: absolute;
+    top: -16px;
+    height: 2px;
+    background: #DAE2EA;
+    border: 0;
+    margin: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cmp-banka {
+    position: relative;
+    z-index: 1;
+  }
+  .cmp-course,
+  .cmp-portion {
+    position: relative;
+    z-index: 2;
+  }
+  .cmp-course__title,
+  .cmp-portion__title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.1;
+    color: #1c1c1c;
+  }
+  .cmp-course__body,
+  .cmp-portion__body {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #808080;
+  }
+
+  @media (max-width: 1023px) {
+    .cmp-section {
+      padding-block: 32px;
+      padding-inline: 16px;
+      overflow: hidden;
+    }
+    .cmp-section .container-page { padding-inline: 0; }
+    .cmp-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      column-gap: 16px;
+      row-gap: 24px;
+    }
+    .cmp-head {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      gap: 24px;
+      max-width: 100%;
+    }
+    .cmp-title {
+      font-size: 32px;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .cmp-desc {
+      font-size: 16px;
+      line-height: 1.2;
+      gap: 4px;
+      max-width: 100%;
+    }
+    .cmp-portion {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: start;
+      max-width: 199px;
+      gap: 12px;
+    }
+    .cmp-course {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: end;
+      max-width: 199px;
+      gap: 12px;
+      margin-top: 200px;
+    }
+    .cmp-banka {
+      grid-column: 2;
+      grid-row: 2;
+      justify-self: end;
+      align-self: stretch;
+      max-width: none;
+      width: 298px;
+      height: 100%;
+      overflow: visible;
+      margin-right: -16px;
+      position: relative;
+    }
+    .cmp-banka img {
+      width: 298px;
+      height: 100%;
+      max-width: none;
+      object-fit: contain;
+      object-position: left center;
+      transform: translateX(50%) !important;
+      animation: none !important;
+      filter: none;
+    }
+    .cmp-icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 0;
+    }
+    .cmp-divider, .cmp-line { display: none; }
+    .cmp-course__title,
+    .cmp-portion__title {
+      font-size: 20px;
+      line-height: 1.2;
+    }
+    .cmp-course__body,
+    .cmp-portion__body {
+      font-size: 16px;
+      line-height: 1.2;
+    }
+  }
+</style>
+
+<script>
+  const grid = document.querySelector<HTMLElement>(".cmp-grid");
+  const portionIcon = document.querySelector<HTMLElement>(".cmp-portion .cmp-icon");
+  const courseIcon = document.querySelector<HTMLElement>(".cmp-course .cmp-icon");
+  const lineL = document.querySelector<HTMLElement>("[data-cmp-line-left]");
+  const lineR = document.querySelector<HTMLElement>("[data-cmp-line-right]");
+  const update = () => {
+    if (!grid) return;
+    const g = grid.getBoundingClientRect();
+    const cs = getComputedStyle(grid);
+    const padL = parseFloat(cs.paddingLeft) || 0;
+    const padR = parseFloat(cs.paddingRight) || 0;
+    const contentWidth = g.width - padL - padR;
+    if (portionIcon && lineL) {
+      const r = portionIcon.getBoundingClientRect();
+      lineL.style.top = (r.bottom + 16 - g.top) + "px";
+      lineL.style.left = padL + "px";
+      lineL.style.width = (contentWidth / 2) + "px";
+    }
+    if (courseIcon && lineR) {
+      const r = courseIcon.getBoundingClientRect();
+      lineR.style.top = (r.bottom + 16 - g.top) + "px";
+      lineR.style.left = (padL + contentWidth / 2) + "px";
+      lineR.style.width = (contentWidth / 2) + "px";
+    }
+  };
+  update();
+  window.addEventListener("resize", update);
+  window.addEventListener("load", update);
+</script>
