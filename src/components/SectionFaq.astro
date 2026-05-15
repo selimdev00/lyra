@@ -1,95 +1,143 @@
 ---
+interface FaqItem {
+  q: string;
+  a?: string;
+}
 interface Props {
   title: string;
-  formNoteLabel: string;
-  submitLabel: string;
-  consentText: string;
+  items: FaqItem[];
 }
-const { title, formNoteLabel, submitLabel, consentText } = Astro.props;
+const { title, items } = Astro.props;
 ---
 
-<section id="faq" class="container-page py-16 lg:py-24">
-  <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-    <div class="space-y-4">
-      <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep leading-tight">
-        {title}
-      </h2>
-      <p class="text-lg text-ink-soft">{formNoteLabel}</p>
-    </div>
-
-    <form
-      class="bg-white rounded-card shadow-card ring-1 ring-line/60 p-6 lg:p-8 space-y-4"
-      action="/api/lead"
-      method="post"
-      novalidate
-      data-form="lead"
-    >
-      <div class="space-y-1.5">
-        <label for="lead-name" class="text-sm font-medium text-brand-deep">Как к вам обращаться</label>
-        <input
-          id="lead-name"
-          name="name"
-          type="text"
-          required
-          autocomplete="name"
-          class="w-full px-4 py-3 rounded-tile bg-surface ring-1 ring-line focus:ring-brand focus:bg-white outline-none transition"
-          placeholder="Имя"
-        />
-      </div>
-
-      <div class="space-y-1.5">
-        <label for="lead-phone" class="text-sm font-medium text-brand-deep">Телефон</label>
-        <input
-          id="lead-phone"
-          name="phone"
-          type="tel"
-          inputmode="tel"
-          required
-          autocomplete="tel"
-          pattern="^[\d\s\+\-\(\)]+$"
-          class="w-full px-4 py-3 rounded-tile bg-surface ring-1 ring-line focus:ring-brand focus:bg-white outline-none transition"
-          placeholder="+7 (___) ___-__-__"
-        />
-      </div>
-
-      <div class="space-y-1.5">
-        <label for="lead-message" class="text-sm font-medium text-brand-deep">Сообщение</label>
-        <textarea
-          id="lead-message"
-          name="message"
-          rows="3"
-          class="w-full px-4 py-3 rounded-tile bg-surface ring-1 ring-line focus:ring-brand focus:bg-white outline-none transition resize-none"
-          placeholder="Опишите вопрос — мы перезвоним"
-        ></textarea>
-      </div>
-
-      <button type="submit" class="btn-primary w-full justify-center">{submitLabel}</button>
-
-      <p class="text-xs text-muted leading-relaxed">{consentText}</p>
-
-      <p data-form-status="" class="hidden text-sm text-brand-dark" role="status"></p>
-    </form>
+<section id="faq" class="faq-section">
+  <div class="container-page">
+    <ul class="faq-list" data-reveal-stagger>
+      {items.map((it, i) => (
+        <li class={`faq-item ${i === 1 && it.a ? "is-open" : ""}`} data-faq-item>
+          <button type="button" class="faq-summary" data-faq-toggle aria-expanded={i === 1 && !!it.a ? "true" : "false"}>
+            <span class="faq-q">{it.q}</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <img class="faq-toggle__plus" src="/img/icon-faq-plus.svg" alt="" width="24" height="24" />
+              <img class="faq-toggle__minus" src="/img/icon-faq-minus.svg" alt="" width="24" height="24" />
+            </span>
+          </button>
+          {it.a && (
+            <div class="faq-body">
+              <div class="faq-body-inner">
+                <p class="faq-a">{it.a}</p>
+              </div>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
 
+<style>
+  .faq-section {
+    background: #f3f3f3;
+    padding-block: clamp(60px, 8vh, 120px);
+  }
+  .faq-list {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 1530px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .faq-item {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .faq-summary {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+  }
+  .faq-q {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1;
+    color: #1c1c1c;
+  }
+  .faq-toggle {
+    flex-shrink: 0;
+    color: #3193cc;
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+  }
+  .faq-toggle img {
+    width: 24px;
+    height: 24px;
+  }
+  .faq-toggle .faq-toggle__plus { display: block; }
+  .faq-toggle .faq-toggle__minus { display: none; }
+  .faq-item.is-open .faq-toggle .faq-toggle__plus { display: none; }
+  .faq-item.is-open .faq-toggle .faq-toggle__minus { display: block; }
+  .faq-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .faq-item.is-open .faq-body {
+    grid-template-rows: 1fr;
+  }
+  .faq-body-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .faq-a {
+    margin: 0;
+    padding: 0 24px 24px;
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #808080;
+  }
+
+  @media (max-width: 1023px) {
+    .faq-section {
+      padding-block: 32px;
+      padding-inline: 16px;
+    }
+    .faq-section .container-page { padding-inline: 0; }
+    .faq-list { max-width: 100%; }
+    .faq-item { border-radius: 16px; }
+    .faq-summary { padding: 16px; gap: 16px; }
+    .faq-q { font-size: 18px; line-height: 1; }
+    .faq-a {
+      padding: 0 16px 16px;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+  }
+</style>
+
 <script>
-  const form = document.querySelector<HTMLFormElement>('form[data-form="lead"]');
-  const status = form?.querySelector<HTMLElement>("[data-form-status]");
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-    const fd = new FormData(form);
-    const payload = Object.fromEntries(fd.entries());
-    if (status) {
-      status.classList.remove("hidden");
-      status.textContent = "Спасибо! Мы свяжемся в течение 15 минут.";
-    }
-    form.reset();
-    if (typeof window !== "undefined") {
-      window.dispatchEvent(new CustomEvent("lead:submitted", { detail: payload }));
-    }
+  document.querySelectorAll<HTMLButtonElement>("[data-faq-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest("[data-faq-item]");
+      if (!item) return;
+      const open = item.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
   });
 </script>

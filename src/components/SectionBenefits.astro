@@ -13,11 +13,6 @@ const { title, productImage, items } = Astro.props;
 ---
 
 <section id="benefits" class="container-page py-16 lg:py-24">
-  <div class="text-center space-y-3 mb-12 lg:mb-16">
-    <p class="text-brand uppercase text-sm font-medium tracking-[0.18em]">Преимущества</p>
-    <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep">{title}</h2>
-  </div>
-
   <div class="relative grid lg:grid-cols-[1fr_minmax(280px,440px)_1fr] gap-6 lg:gap-10 items-center">
     <ul class="space-y-6 lg:text-right">
       {items.slice(0, Math.ceil(items.length / 2)).map((it) => (
