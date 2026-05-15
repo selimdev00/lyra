@@ -1,40 +1,300 @@
 ---
+interface AudienceCard {
+  age: string;
+  text: string;
+}
 interface Props {
   title: string;
-  body: string;
-  bullets: string[];
   image: string;
+  cards: AudienceCard[];
+  activeIndex?: number;
 }
-const { title, body, bullets, image } = Astro.props;
+const { title, image, cards, activeIndex = 1 } = Astro.props;
 ---
 
-<section class="container-page py-16 lg:py-24">
-  <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-    <div class="relative order-2 lg:order-1">
-      <img
-        src={image}
-        alt="Активный образ жизни"
-        width="640"
-        height="720"
-        loading="lazy"
-        decoding="async"
-        class="w-full h-full object-cover rounded-card"
-      />
-    </div>
+<section id="audience" class="aud-section">
+  <picture class="aud-bg" aria-hidden="true">
+    <source srcset="/img/lifestyle.webp" type="image/webp" />
+    <img src={image} alt="" width="1920" height="809" loading="lazy" decoding="async" />
+  </picture>
+  <div class="aud-overlay" aria-hidden="true"></div>
+  <img src="/img/aud-curve.svg" alt="" aria-hidden="true" class="aud-curve" />
 
-    <div class="space-y-6 order-1 lg:order-2">
-      <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep leading-tight">
-        {title}
-      </h2>
-      <p class="text-lg text-ink-soft leading-relaxed">{body}</p>
-      <ul class="grid sm:grid-cols-2 gap-3">
-        {bullets.map((b) => (
-          <li class="flex items-center gap-3 px-4 py-3 rounded-tile bg-surface text-brand-deep font-medium">
-            <span class="w-2 h-2 rounded-full bg-brand shrink-0"></span>
-            <span>{b}</span>
-          </li>
-        ))}
-      </ul>
+  <div class="container-page aud-content">
+    <h2 class="aud-title" data-reveal>{title}</h2>
+
+    <div class="aud-controls">
+      <div class="aud-arrows" aria-hidden="true">
+        <button type="button" class="aud-arrow" data-aud-prev aria-label="Назад">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+            <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button type="button" class="aud-arrow" data-aud-next aria-label="Вперёд">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+            <path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="aud-viewport">
+        <ul class="aud-cards" data-aud-track style={`--active:${activeIndex}`}>
+          {cards.map((c, i) => (
+            <li class={`aud-card ${i === activeIndex ? "aud-card--active" : ""}`} data-aud-card>
+              <p class="aud-card__age">{c.age}</p>
+              <p class="aud-card__text">{c.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .aud-section {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    min-height: 809px;
+    color: #fff;
+    margin-top: clamp(-220px, -18vh, -120px);
+    z-index: 2;
+  }
+  .aud-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .aud-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .aud-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(102, 102, 102, 0) 0%, rgba(0, 0, 0, 0.2) 100%);
+  }
+  .aud-curve {
+    position: absolute;
+    left: -1255px;
+    top: 236px;
+    width: 2227px;
+    height: 633px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.85;
+  }
+  .aud-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: clamp(40px, 8vh, 80px);
+    padding-top: 120px;
+    padding-bottom: 60px;
+    height: 100%;
+    min-height: 809px;
+  }
+  .aud-title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: clamp(28px, 3.2vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #1c1c1c;
+    max-width: 908px;
+  }
+  .aud-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: auto;
+  }
+  .aud-arrows {
+    display: flex;
+    gap: 8px;
+  }
+  .aud-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    border: 0;
+    background: #fff;
+    color: #3193cc;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background 0.2s;
+    padding: 0;
+  }
+  .aud-arrow:hover { background: rgba(255, 255, 255, 0.9); }
+  .aud-viewport {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+  }
+  .aud-cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 597px / 2 - var(--active, 0) * (597px + 24px));
+    transition: left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: left;
+  }
+  .aud-card {
+    flex: 0 0 597px;
+    width: 597px;
+    height: 150px;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+  }
+  .aud-card--active {
+    background: #fff;
+    border-color: transparent;
+    color: #3496ce;
+  }
+  .aud-card__age {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1;
+  }
+  .aud-card__text {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 1023px) {
+    .aud-section {
+      min-height: auto;
+      margin-top: 0;
+      background: #fff;
+      padding-bottom: 0;
+    }
+    .aud-bg,
+    .aud-overlay {
+      top: 160px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: auto;
+      border-radius: 0;
+      overflow: hidden;
+    }
+    .aud-bg img {
+      object-position: 60% center;
+    }
+    .aud-curve { display: none; }
+    .aud-title {
+      color: #1c1c1c !important;
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      padding: 32px 16px 24px;
+      max-width: 343px;
+    }
+    .aud-content {
+      min-height: auto;
+      padding-top: 0;
+      padding-bottom: 16px;
+      gap: 16px;
+      justify-content: flex-start;
+    }
+    .aud-controls {
+      margin-top: 0;
+      padding-inline: 16px;
+    }
+    .aud-section .container-page {
+      padding-inline: 0;
+    }
+    .aud-content {
+      padding-inline: 0;
+    }
+    .aud-title {
+      padding-inline: 16px;
+    }
+    .aud-controls {
+      gap: 16px;
+    }
+    .aud-arrows {
+      display: none;
+    }
+    .aud-viewport {
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+    .aud-cards {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transform: none !important;
+      left: 0 !important;
+      transition: none !important;
+    }
+    .aud-card {
+      flex: 0 0 auto;
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      border-radius: 16px;
+      padding: 16px;
+      gap: 16px;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .aud-card__age {
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    .aud-card__text {
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    .aud-title {
+      font-size: 24px;
+    }
+  }
+</style>
+
+<script>
+  const track = document.querySelector<HTMLElement>("[data-aud-track]");
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-aud-card]"));
+  const prev = document.querySelector<HTMLButtonElement>("[data-aud-prev]");
+  const next = document.querySelector<HTMLButtonElement>("[data-aud-next]");
+  let active = cards.findIndex((c) => c.classList.contains("aud-card--active"));
+  if (active < 0) active = 0;
+  const setActive = (i: number) => {
+    cards[active]?.classList.remove("aud-card--active");
+    active = (i + cards.length) % cards.length;
+    cards[active]?.classList.add("aud-card--active");
+    track?.style.setProperty("--active", String(active));
+  };
+  prev?.addEventListener("click", () => setActive(active - 1));
+  next?.addEventListener("click", () => setActive(active + 1));
+</script>
