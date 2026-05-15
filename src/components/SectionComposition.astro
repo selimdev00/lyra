@@ -1,39 +1,179 @@
 ---
+import CtaButton from "./CtaButton.astro";
+
 interface Row {
   name: string;
-  amount: string;
   role: string;
 }
 interface Props {
-  title: string;
-  subtitle: string;
+  titleLead: string;
+  titleAccent: string;
+  image: string;
+  cta: { label: string; href: string };
   rows: Row[];
 }
-const { title, subtitle, rows } = Astro.props;
+const { titleLead, titleAccent, image, cta, rows } = Astro.props;
 ---
 
-<section id="composition" class="bg-surface py-16 lg:py-24">
+<section id="composition" class="comp-section">
   <div class="container-page">
-    <div class="text-center space-y-4 mb-12 lg:mb-16">
-      <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep leading-tight">{title}</h2>
-      <p class="text-lg text-ink-soft max-w-3xl mx-auto">{subtitle}</p>
-    </div>
+    <div class="comp-card" data-reveal>
+      <div class="comp-card__media">
+        <picture>
+          <source srcset={image} type="image/webp" />
+          <img
+            src="/img/scoop.jpg"
+            alt="Мерная ложка с порошком Complex SW Суставы"
+            width="713"
+            height="810"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+      </div>
 
-    <div class="bg-white rounded-card shadow-card ring-1 ring-line/60 overflow-hidden">
-      <div role="table" class="divide-y divide-line/70">
-        <div role="row" class="grid grid-cols-[1.5fr_1fr_2fr] gap-4 px-6 py-4 bg-surface-2 text-xs font-medium uppercase tracking-wider text-brand-dark">
-          <div role="columnheader">Компонент</div>
-          <div role="columnheader">Дозировка</div>
-          <div role="columnheader">Назначение</div>
-        </div>
-        {rows.map((r) => (
-          <div role="row" class="grid grid-cols-[1.5fr_1fr_2fr] gap-4 px-6 py-4 items-center hover:bg-surface/50 transition-colors">
-            <div role="cell" class="font-medium text-brand-deep">{r.name}</div>
-            <div role="cell" class="text-brand font-semibold">{r.amount}</div>
-            <div role="cell" class="text-ink-soft text-sm">{r.role}</div>
-          </div>
-        ))}
+      <div class="comp-card__body">
+        <h2 class="comp-card__title">
+          <span>{titleLead}</span>
+          <span class="comp-card__title--accent">{titleAccent}</span>
+        </h2>
+
+        <ul class="comp-card__grid">
+          {rows.map((r) => (
+            <li class="comp-item">
+              <p class="comp-item__name">{r.name}</p>
+              <p class="comp-item__role">{r.role}</p>
+            </li>
+          ))}
+          <li class="comp-cta">
+            <CtaButton label={cta.label} href={cta.href} variant="brand" size="lg" />
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .comp-section {
+    padding-top: 0;
+    padding-bottom: clamp(80px, 12vh, 160px);
+    background: #f3f3f3;
+    position: relative;
+    margin-top: 0;
+  }
+  .comp-card {
+    position: relative;
+    z-index: 4;
+    background: #fff;
+    border-radius: 40px;
+    padding: 40px 80px 40px 40px;
+    display: grid;
+    grid-template-columns: 713px minmax(0, 1fr);
+    gap: 80px;
+    align-items: start;
+    box-shadow: 0 12px 40px -24px rgba(16, 42, 68, 0.18);
+  }
+  .comp-card__media {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #9ad5ef;
+    width: 713px;
+    height: 810px;
+  }
+  .comp-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .comp-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-top: 62px;
+  }
+  .comp-card__title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #1c1c1c;
+  }
+  .comp-card__title--accent {
+    color: #3496ce;
+  }
+  .comp-card__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 451px));
+    gap: 32px 24px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .comp-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .comp-item__name {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    color: #1c1c1c;
+  }
+  .comp-item__role {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #808080;
+  }
+  .comp-cta {
+    margin-top: 8px;
+  }
+
+  @media (max-width: 1023px) {
+    .comp-section {
+      padding-block: 16px;
+      padding-inline: 16px;
+    }
+    .comp-section .container-page { padding-inline: 0; }
+    .comp-card {
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 16px;
+      border-radius: 16px;
+    }
+    .comp-card__media {
+      order: 2;
+      width: 100%;
+      height: 240px;
+      border-radius: 8px;
+    }
+    .comp-card__body {
+      display: contents;
+    }
+    .comp-card__title {
+      order: 1;
+    }
+    .comp-card__grid {
+      order: 3;
+    }
+    .comp-card__title {
+      font-size: 32px;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .comp-card__grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .comp-item__name { font-size: 18px; line-height: 1.2; }
+    .comp-item__role { font-size: 14px; line-height: 1.2; }
+  }
+</style>
