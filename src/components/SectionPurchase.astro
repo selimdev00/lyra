@@ -1,50 +1,227 @@
 ---
+import CtaButton from "./CtaButton.astro";
+
 interface Props {
-  title: string;
+  productTitle: string;
+  productImage: string;
   price: string;
-  oldPrice?: string;
-  note: string;
-  image: string;
-  ctaLabel: string;
-  ctaHref: string;
+  meta: string;
+  cta: { label: string; href: string };
+  usageTitle: string;
+  usageImage: string;
+  usageSteps: string[];
 }
-const { title, price, oldPrice, note, image, ctaLabel, ctaHref } = Astro.props;
+const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, usageSteps } = Astro.props;
 ---
 
-<section id="order" class="bg-surface py-16 lg:py-24">
-  <div class="container-page">
-    <div class="bg-white rounded-card shadow-card ring-1 ring-line/60 overflow-hidden grid lg:grid-cols-[1fr_1.2fr] gap-0">
-      <div class="bg-gradient-to-br from-surface-2 to-surface flex items-center justify-center p-8 lg:p-12">
-        <img
-          src={image}
-          alt="Сустави 365 — упаковка"
-          width="480"
-          height="480"
-          loading="lazy"
-          decoding="async"
-          class="max-w-sm w-full"
-        />
-      </div>
-
-      <div class="p-8 lg:p-12 flex flex-col justify-center gap-6">
-        <h2 class="text-3xl lg:text-4xl font-semibold text-brand-deep">{title}</h2>
-
-        <div class="flex items-baseline gap-4 flex-wrap">
-          <span class="text-4xl lg:text-5xl font-bold text-brand">{price}</span>
-          {oldPrice && (
-            <span class="text-xl text-muted line-through">{oldPrice}</span>
-          )}
+<section id="order" class="pur-section">
+  <div class="container-page pur-grid" data-reveal-stagger>
+    <article class="pur-card pur-card--product">
+      <picture class="pur-card__bg" aria-hidden="true">
+        <source srcset="/img/pur-card-bg.webp" type="image/webp" />
+        <img src="/img/pur-card-bg.png" alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+      </picture>
+      <h3 class="pur-card__title">{productTitle}</h3>
+      <picture class="pur-card__product-img">
+        <source srcset="/img/banka-straight.webp" type="image/webp" />
+        <img src="/img/banka-straight.png" alt="Complex SW СУСТАВЫ" width="306" height="387" loading="lazy" decoding="async" />
+      </picture>
+      <div class="pur-card__price-wrap">
+        <div class="pur-card__price-block">
+          <p class="pur-card__price">{price}</p>
+          <p class="pur-card__meta">{meta}</p>
         </div>
-
-        <p class="text-ink-soft">{note}</p>
-
-        <a href={ctaHref} class="btn-primary self-start">
-          {ctaLabel}
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
+        <CtaButton label={cta.label} href={cta.href} variant="white" size="lg" />
       </div>
-    </div>
+    </article>
+
+    <article class="pur-card pur-card--usage">
+      <h3 class="pur-card__title pur-card__title--dark">{usageTitle}</h3>
+      <picture class="pur-card__usage-img">
+        <source srcset={usageImage} type="image/webp" />
+        <img src="/img/usage.jpg" alt="Инструкция по применению" width="900" height="540" loading="lazy" decoding="async" />
+      </picture>
+      <ul class="pur-card__steps">
+        {usageSteps.map((s) => <li>{s}</li>)}
+      </ul>
+    </article>
   </div>
 </section>
+
+<style>
+  .pur-section {
+    background: #f3f3f3;
+    padding-block: clamp(60px, 8vh, 120px);
+  }
+  .pur-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .pur-card {
+    border-radius: 24px;
+    padding: 80px 80px;
+    height: 824px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 32px;
+    overflow: hidden;
+    position: relative;
+  }
+  .pur-card--product {
+    background: #2f9dcf;
+    color: #fff;
+  }
+  .pur-card--usage {
+    background: #fff;
+    color: #1c1c1c;
+    box-shadow: 0 12px 40px -24px rgba(16, 42, 68, 0.12);
+    ring: 1px solid #ebebeb;
+    border: 1px solid #ebebeb;
+  }
+  .pur-card__title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.2;
+    max-width: 588px;
+    color: inherit;
+  }
+  .pur-card__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: 24px;
+    overflow: hidden;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  .pur-card__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .pur-card--product > *:not(.pur-card__bg) {
+    position: relative;
+    z-index: 1;
+  }
+  .pur-card__product-img {
+    display: block;
+    width: 306px;
+    height: 387px;
+  }
+  .pur-card__product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.2));
+  }
+  .pur-card__price-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    width: 373px;
+  }
+  .pur-card__price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .pur-card__price {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.2;
+  }
+  .pur-card__meta {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+  .pur-card__usage-img {
+    display: block;
+    width: 100%;
+    max-width: 586px;
+  }
+  .pur-card__usage-img img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .pur-card__steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1;
+    color: #1c1c1c;
+    max-width: 311px;
+  }
+
+  @media (max-width: 1023px) {
+    .pur-section {
+      padding-block: 32px;
+      padding-inline: 16px;
+    }
+    .pur-section .container-page { padding-inline: 0; }
+    .pur-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .pur-card {
+      height: auto;
+      min-height: auto;
+      padding: 40px 28px;
+      border-radius: 16px;
+      gap: 16px;
+    }
+    .pur-card--usage {
+      min-height: 466px;
+    }
+    .pur-card__title {
+      font-size: 20px;
+      line-height: 1.2;
+    }
+    .pur-card__product-img {
+      width: 186px;
+      height: 240px;
+    }
+    .pur-card__price-wrap {
+      width: 100%;
+      gap: 16px;
+    }
+    .pur-card__price-block {
+      gap: 4px;
+    }
+    .pur-card__price {
+      font-size: 20px;
+      line-height: 1.2;
+    }
+    .pur-card__meta {
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    .pur-card__steps {
+      font-size: 18px;
+      line-height: 1.2;
+      gap: 4px;
+      max-width: 288px;
+    }
+    .pur-card__usage-img {
+      max-width: 282px;
+    }
+  }
+</style>
