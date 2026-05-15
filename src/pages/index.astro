@@ -40,13 +40,23 @@ const orgSchema = {
   url: Astro.site?.toString(),
   email: data.contacts.email,
 };
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: (data.faq?.items || []).filter((i: { a?: string }) => !!i.a).map((i: { q: string; a: string }) => ({
+    "@type": "Question",
+    name: i.q,
+    acceptedAnswer: { "@type": "Answer", text: i.a },
+  })),
+};
 ---
 
 <BaseLayout title={data.seo.title} description={data.seo.description} ogImage={data.seo.ogImage}>
   <script
     slot="head"
     type="application/ld+json"
-    set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": [productSchema, orgSchema] })}
+    set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": [productSchema, orgSchema, faqSchema] })}
   />
 
   <SiteHeader {...data.header} />
