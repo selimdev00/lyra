@@ -1,54 +1,125 @@
 ---
 interface Props {
-  address: string;
-  phone: string;
-  email: string;
-  telegramLabel: string;
-  telegramUrl: string;
+  logo: string;
+  copyright: string;
+  rights: string;
+  disclaimer: string;
+  links: { label: string; href: string }[];
 }
-const { address, phone, email, telegramLabel, telegramUrl } = Astro.props;
-const year = new Date().getFullYear();
+const { logo, copyright, rights, disclaimer, links } = Astro.props;
 ---
 
-<footer class="bg-brand-deep text-white">
-  <div class="container-page py-12 lg:py-16 grid md:grid-cols-3 gap-8">
-    <div class="space-y-3">
-      <div class="flex items-center gap-2 font-semibold text-xl">
-        <span class="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white text-sm">FM</span>
-        Сустави 365
-      </div>
-      <p class="text-sm text-white/70 max-w-xs">
-        БАД. Не является лекарственным средством. Проконсультируйтесь со специалистом перед применением.
-      </p>
+<footer class="ft">
+  <div class="container-page ft-grid">
+    <div class="ft-left">
+      <p>{copyright}</p>
+      <p>{rights}</p>
     </div>
 
-    <div class="space-y-3 text-sm">
-      <p class="text-xs uppercase tracking-wider text-white/50">Контакты</p>
-      <p class="text-white/90">{address}</p>
-      <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} class="block hover:text-brand transition">{phone}</a>
-      <a href={`mailto:${email}`} class="block hover:text-brand transition">{email}</a>
+    <div class="ft-center">
+      <img src={logo} alt="FMF" width="162" height="62" loading="lazy" decoding="async" />
+      <p class="ft-disclaimer">{disclaimer}</p>
     </div>
 
-    <div class="space-y-3 text-sm">
-      <p class="text-xs uppercase tracking-wider text-white/50">Соцсети</p>
-      <a
-        href={telegramUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition"
-      >
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M9.78 18.65 10 14.42l7.45-6.71c.33-.3-.07-.45-.5-.18L7.74 13.3l-3.97-1.25c-.85-.25-.86-.85.19-1.26l15.5-5.98c.71-.32 1.39.17 1.12 1.26l-2.64 12.43c-.18.88-.71 1.1-1.44.69l-3.97-2.93-1.91 1.86c-.22.22-.41.41-.84.41z" />
-        </svg>
-        {telegramLabel}
-      </a>
-    </div>
-  </div>
-
-  <div class="border-t border-white/10">
-    <div class="container-page py-5 flex flex-wrap items-center justify-between gap-3 text-xs text-white/50">
-      <span>© {year} FMF. Все права защищены.</span>
-      <span>Политика конфиденциальности · Договор оферты</span>
+    <div class="ft-right">
+      {links.map((l) => (
+        <a href={l.href}>{l.label}</a>
+      ))}
     </div>
   </div>
 </footer>
+
+<style>
+  .ft {
+    background: #fff;
+    border-top: 1px solid #ebebeb;
+  }
+  .ft-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 32px;
+    padding-block: 40px;
+    align-items: end;
+  }
+  .ft-left p, .ft-right a {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #1c1c1c;
+    margin: 0;
+  }
+  .ft-left p + p, .ft-right a + a { margin-top: 12px; }
+  .ft-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 596px;
+  }
+  .ft-center img {
+    height: 62px;
+    width: auto;
+  }
+  .ft-disclaimer {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #808080;
+    text-align: center;
+  }
+  .ft-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .ft-right a {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1023px) {
+    .ft-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 16px 16px 16px;
+      align-items: stretch;
+      text-align: left;
+    }
+    .ft-center {
+      order: 1;
+      align-items: flex-start;
+      gap: 12px;
+      max-width: 100%;
+    }
+    .ft-center img {
+      height: 55px;
+    }
+    .ft-disclaimer {
+      text-align: left;
+      max-width: 343px;
+    }
+    .ft-right {
+      order: 2;
+      align-items: flex-start;
+      text-align: left;
+      gap: 8px;
+    }
+    .ft-right a {
+      font-size: 16px;
+      text-decoration: none;
+      margin-top: 0 !important;
+    }
+    .ft-left {
+      order: 3;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .ft-left p {
+      font-size: 16px;
+      margin-top: 0 !important;
+    }
+    .ft-left p + p { margin-top: 8px !important; }
+  }
+</style>
