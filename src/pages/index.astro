@@ -4,12 +4,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SectionHero from "../components/SectionHero.astro";
 import SectionIntro from "../components/SectionIntro.astro";
-import SectionBenefits from "../components/SectionBenefits.astro";
 import SectionComposition from "../components/SectionComposition.astro";
 import SectionAudience from "../components/SectionAudience.astro";
 import SectionComparison from "../components/SectionComparison.astro";
 import SectionPurchase from "../components/SectionPurchase.astro";
 import SectionFaq from "../components/SectionFaq.astro";
+import SectionContact from "../components/SectionContact.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 
 const page = await getEntry("landing", "page");
@@ -21,9 +21,9 @@ const data = page.data;
 const productSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "Сустави 365",
-  description: data.intro.body,
-  brand: { "@type": "Brand", name: "FMF" },
+  name: "Complex SW Суставы",
+  description: data.composition.titleLead + data.composition.titleAccent,
+  brand: { "@type": "Brand", name: "Оптисалт" },
   category: "Dietary supplement",
   offers: {
     "@type": "Offer",
@@ -39,8 +39,6 @@ const orgSchema = {
   name: "FMF",
   url: Astro.site?.toString(),
   email: data.contacts.email,
-  telephone: data.contacts.phone,
-  address: { "@type": "PostalAddress", streetAddress: data.contacts.address },
 };
 ---
 
@@ -51,18 +49,18 @@ const orgSchema = {
     set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": [productSchema, orgSchema] })}
   />
 
-  <SiteHeader phone={data.contacts.phone} ctaLabel={data.hero.cta.label} ctaHref={data.hero.cta.href} />
+  <SiteHeader {...data.header} />
 
   <main>
     <SectionHero {...data.hero} />
-    <SectionIntro {...data.intro} />
-    <SectionBenefits {...data.benefits} />
+    <SectionIntro {...data.intro} benefits={data.benefits.items} />
     <SectionComposition {...data.composition} />
     <SectionAudience {...data.audience} />
     <SectionComparison {...data.comparison} />
-    <SectionPurchase {...data.purchase} ctaHref="#faq" />
+    <SectionPurchase {...data.purchase} />
     <SectionFaq {...data.faq} />
+    <SectionContact {...data.contacts} />
   </main>
 
-  <SiteFooter {...data.contacts} />
+  <SiteFooter {...data.footer} />
 </BaseLayout>
