@@ -1,0 +1,491 @@
+---
+import CtaButton from "./CtaButton.astro";
+
+interface Messenger {
+  label: string;
+  href: string;
+  icon: string;
+}
+interface Props {
+  title: string;
+  email: string;
+  messengers: Messenger[];
+  consentText: string;
+  submitLabel: string;
+}
+const { title, email, messengers, consentText, submitLabel } = Astro.props;
+---
+
+<section id="contact" class="ct-section">
+  <div class="container-page">
+    <div class="ct-card" data-reveal>
+      <h2 class="ct-title">{title}</h2>
+
+      <div class="ct-row">
+        <aside class="ct-aside">
+          <div class="ct-block">
+            <span class="ct-label">Эл. почта</span>
+            <a class="ct-email" href={`mailto:${email}`}>{email}</a>
+          </div>
+          <div class="ct-block">
+            <span class="ct-label">Мессенджеры</span>
+            <div class="ct-messengers">
+              {messengers.map((m) => (
+                <a class="ct-msg" href={m.href} target="_blank" rel="noopener" aria-label={m.label}>
+                  <img src={m.icon} alt={m.label} width="56" height="56" loading="lazy" decoding="async" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        <form class="ct-form" action="/api/lead" method="post" novalidate data-form="lead">
+          <div class="ct-fields">
+            <label class="ct-field">
+              <span>Имя</span>
+              <input
+                type="text"
+                name="name"
+                required
+                minlength="2"
+                maxlength="60"
+                autocomplete="name"
+                placeholder="Как к вам обращаться"
+                aria-describedby="err-name"
+                data-field="name"
+              />
+              <p class="ct-error" id="err-name" data-error-for="name" aria-live="polite"></p>
+            </label>
+            <label class="ct-field">
+              <span>Телефон</span>
+              <input
+                type="tel"
+                name="phone"
+                required
+                autocomplete="tel"
+                inputmode="tel"
+                placeholder="+7 (___) ___-__-__"
+                aria-describedby="err-phone"
+                data-field="phone"
+                data-phone-mask
+              />
+              <p class="ct-error" id="err-phone" data-error-for="phone" aria-live="polite"></p>
+            </label>
+            <label class="ct-field">
+              <span>Эл. почта</span>
+              <input
+                type="email"
+                name="email"
+                autocomplete="email"
+                placeholder="Ваша эл.почта"
+                aria-describedby="err-email"
+                data-field="email"
+              />
+              <p class="ct-error" id="err-email" data-error-for="email" aria-live="polite"></p>
+            </label>
+          </div>
+
+          <label class="ct-consent">
+            <input type="checkbox" required name="consent" data-field="consent" />
+            <span>{consentText}</span>
+          </label>
+          <p class="ct-error ct-error--inline" data-error-for="consent" aria-live="polite"></p>
+
+          <div class="ct-submit-row">
+            <CtaButton label={submitLabel} href="#" variant="brand" size="md" class="ct-submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" data-toast role="status" aria-live="polite">
+  <span class="toast__icon" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </span>
+  <span class="toast__text" data-toast-text></span>
+</div>
+
+<style>
+  .ct-section {
+    background: #f3f3f3;
+    padding-block: clamp(60px, 8vh, 120px);
+  }
+  .ct-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .ct-title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: clamp(28px, 3.2vw, 48px);
+    line-height: 1;
+    color: #1c1c1c;
+  }
+  .ct-row {
+    display: grid;
+    grid-template-columns: 313px minmax(0, 1fr);
+    gap: 32px;
+    align-items: end;
+  }
+  .ct-aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+    min-height: 202px;
+  }
+  .ct-block { display: flex; flex-direction: column; gap: 12px; }
+  .ct-label {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #5c6b60;
+  }
+  .ct-email {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: clamp(22px, 2.1vw, 32px);
+    color: #3193cc;
+    text-decoration: underline;
+  }
+  .ct-messengers { display: flex; gap: 8px; }
+  .ct-msg {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    transition: transform 0.2s;
+  }
+  .ct-msg:hover { transform: translateY(-2px); }
+  .ct-msg img { width: 56px; height: 56px; display: block; }
+
+  .ct-form { display: flex; flex-direction: column; gap: 24px; }
+  .ct-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .ct-field { display: flex; flex-direction: column; gap: 4px; }
+  .ct-field > span {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #1c1c1c;
+  }
+  .ct-field input {
+    height: 56px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: #f3f3f3;
+    padding: 0 16px;
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #1c1c1c;
+    transition: border-color 0.15s, outline 0.15s;
+  }
+  .ct-field input:focus-visible {
+    outline: none;
+    border-color: var(--color-brand);
+  }
+  .ct-field input[aria-invalid="true"] {
+    border-color: #e54040;
+    background: #fdecec;
+  }
+  .ct-error {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #e54040;
+    line-height: 1.2;
+    min-height: 16px;
+    margin: 0;
+  }
+  .ct-error:empty { min-height: 0; }
+  .ct-error--inline { margin-top: -16px; }
+
+  .ct-consent {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #808080;
+    line-height: 1.4;
+    cursor: pointer;
+  }
+  .ct-consent input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 0;
+    background: #f3f3f3;
+    flex: none;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    position: relative;
+  }
+  .ct-consent input:checked { background: var(--color-brand); }
+  .ct-consent input:checked::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .ct-consent input:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+  .ct-consent input[aria-invalid="true"] {
+    outline: 2px solid #e54040;
+  }
+
+  .ct-submit-row { display: flex; }
+  .ct-submit[aria-busy="true"] { opacity: 0.7; pointer-events: none; }
+
+  .toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 100;
+    background: #1c1c1c;
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    max-width: calc(100vw - 48px);
+  }
+  .toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .toast--success { background: #1f8a3a; }
+  .toast--error { background: #c8362e; }
+  .toast__icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+
+  @media (max-width: 1023px) {
+    .ct-section {
+      padding-block: 16px;
+      padding-inline: 16px;
+    }
+    .ct-section .container-page { padding-inline: 0; }
+    .ct-card {
+      padding: 16px;
+      border-radius: 16px;
+      gap: 32px;
+    }
+    .ct-title {
+      font-size: 32px !important;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .ct-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .ct-fields { grid-template-columns: 1fr; gap: 8px; }
+    .ct-label { font-size: 14px; }
+    .ct-email { font-size: 20px !important; }
+    .ct-submit-row { display: flex; }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('form[data-form="lead"]');
+  if (form) {
+    const toast = document.querySelector<HTMLElement>("[data-toast]");
+    const toastText = document.querySelector<HTMLElement>("[data-toast-text]");
+    const submitWrap = form.querySelector<HTMLElement>(".ct-submit");
+    const submitAnchor = submitWrap?.querySelector("a") || submitWrap;
+
+    type FieldName = "name" | "phone" | "email" | "consent";
+
+    const PHONE_RE = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const NAME_RE = /^[А-Яа-яЁёA-Za-z][А-Яа-яЁёA-Za-z\s\-']{1,59}$/;
+
+    const showToast = (text: string, variant: "success" | "error" = "success") => {
+      if (!toast || !toastText) return;
+      toast.classList.remove("toast--success", "toast--error");
+      toast.classList.add(`toast--${variant}`);
+      toastText.textContent = text;
+      toast.classList.add("is-visible");
+      window.clearTimeout((toast as any)._timer);
+      (toast as any)._timer = window.setTimeout(() => {
+        toast.classList.remove("is-visible");
+      }, 4500);
+    };
+
+    const showError = (field: FieldName, msg: string) => {
+      const input = form.querySelector<HTMLInputElement>(`[data-field="${field}"]`);
+      const err = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+      if (input) input.setAttribute("aria-invalid", "true");
+      if (err) err.textContent = msg;
+    };
+    const clearError = (field: FieldName) => {
+      const input = form.querySelector<HTMLInputElement>(`[data-field="${field}"]`);
+      const err = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+      if (input) input.removeAttribute("aria-invalid");
+      if (err) err.textContent = "";
+    };
+
+    const formatPhone = (raw: string) => {
+      const digits = raw.replace(/\D/g, "").replace(/^7?/, "").slice(0, 10);
+      const parts = [
+        digits.slice(0, 3),
+        digits.slice(3, 6),
+        digits.slice(6, 8),
+        digits.slice(8, 10),
+      ];
+      let out = "+7";
+      if (parts[0]) out += " (" + parts[0];
+      if (parts[0] && parts[0].length === 3) out += ")";
+      if (parts[1]) out += " " + parts[1];
+      if (parts[2]) out += "-" + parts[2];
+      if (parts[3]) out += "-" + parts[3];
+      return out;
+    };
+
+    const phoneInput = form.querySelector<HTMLInputElement>("[data-phone-mask]");
+    if (phoneInput) {
+      const onInput = () => {
+        const sel = phoneInput.selectionStart ?? phoneInput.value.length;
+        const before = phoneInput.value;
+        phoneInput.value = formatPhone(phoneInput.value);
+        const delta = phoneInput.value.length - before.length;
+        phoneInput.setSelectionRange(sel + delta, sel + delta);
+        clearError("phone");
+      };
+      const onFocus = () => {
+        if (!phoneInput.value) phoneInput.value = "+7 ";
+      };
+      const onBlur = () => {
+        if (phoneInput.value === "+7 " || phoneInput.value === "+7") phoneInput.value = "";
+      };
+      phoneInput.addEventListener("input", onInput);
+      phoneInput.addEventListener("focus", onFocus);
+      phoneInput.addEventListener("blur", onBlur);
+    }
+
+    ["name", "email"].forEach((f) => {
+      const inp = form.querySelector<HTMLInputElement>(`[data-field="${f}"]`);
+      inp?.addEventListener("input", () => clearError(f as FieldName));
+    });
+    form.querySelector<HTMLInputElement>('[data-field="consent"]')?.addEventListener("change", () => clearError("consent"));
+
+    const validate = () => {
+      let ok = true;
+      const name = (form.querySelector<HTMLInputElement>('[data-field="name"]')?.value || "").trim();
+      const phone = (form.querySelector<HTMLInputElement>('[data-field="phone"]')?.value || "").trim();
+      const email = (form.querySelector<HTMLInputElement>('[data-field="email"]')?.value || "").trim();
+      const consent = form.querySelector<HTMLInputElement>('[data-field="consent"]')?.checked;
+
+      if (!name) { showError("name", "Укажите имя"); ok = false; }
+      else if (!NAME_RE.test(name)) { showError("name", "Только буквы, дефис, апостроф. 2–60 символов"); ok = false; }
+      else clearError("name");
+
+      if (!phone) { showError("phone", "Укажите телефон"); ok = false; }
+      else if (!PHONE_RE.test(phone)) { showError("phone", "Формат: +7 (XXX) XXX-XX-XX"); ok = false; }
+      else clearError("phone");
+
+      if (email && !EMAIL_RE.test(email)) { showError("email", "Некорректный email"); ok = false; }
+      else clearError("email");
+
+      if (!consent) { showError("consent", "Подтвердите согласие на обработку данных"); ok = false; }
+      else clearError("consent");
+
+      return ok;
+    };
+
+    const setBusy = (busy: boolean) => {
+      if (submitAnchor instanceof HTMLElement) {
+        if (busy) submitAnchor.setAttribute("aria-busy", "true");
+        else submitAnchor.removeAttribute("aria-busy");
+      }
+    };
+
+    const submitForm = async () => {
+      if (!validate()) {
+        showToast("Проверьте правильность заполнения формы", "error");
+        return;
+      }
+      const fd = new FormData(form);
+      const payload = {
+        name: String(fd.get("name") || "").trim(),
+        phone: String(fd.get("phone") || "").trim(),
+        email: String(fd.get("email") || "").trim(),
+      };
+
+      setBusy(true);
+      try {
+        // POST to backend. Endpoint stub — replace with real handler in production.
+        const res = await fetch("/api/lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }).catch(() => null);
+
+        // Static demo: treat any network/404 as success (no backend yet).
+        const ok = !res || res.ok || res.status === 404;
+        if (!ok) throw new Error(`HTTP ${res?.status}`);
+
+        showToast("Заявка отправлена. Мы свяжемся в течение 15 минут.", "success");
+        form.reset();
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("lead:submitted", { detail: payload }));
+        }
+      } catch (err) {
+        showToast("Не удалось отправить. Попробуйте ещё раз или напишите в мессенджер.", "error");
+      } finally {
+        setBusy(false);
+      }
+    };
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm();
+    });
+
+    if (submitAnchor) {
+      submitAnchor.addEventListener("click", (e) => {
+        e.preventDefault();
+        submitForm();
+      });
+    }
+  }
+</script>
