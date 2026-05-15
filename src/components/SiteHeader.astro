@@ -1,0 +1,32 @@
+---
+interface Props {
+  phone: string;
+  ctaLabel: string;
+  ctaHref: string;
+}
+const { phone, ctaLabel, ctaHref } = Astro.props;
+---
+
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-line">
+  <div class="container-page flex items-center justify-between py-4 gap-4">
+    <a href="/" class="flex items-center gap-2 font-semibold text-brand-deep text-xl" aria-label="FMF — на главную">
+      <span class="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white text-sm">FM</span>
+      Сустави 365
+    </a>
+
+    <nav aria-label="Меню" class="hidden md:flex items-center gap-7 text-sm text-ink-soft">
+      <a href="#benefits" class="hover:text-brand transition">Преимущества</a>
+      <a href="#composition" class="hover:text-brand transition">Состав</a>
+      <a href="#comparison" class="hover:text-brand transition">Сравнение</a>
+      <a href="#order" class="hover:text-brand transition">Купить</a>
+      <a href="#faq" class="hover:text-brand transition">Контакты</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} class="hidden lg:inline text-sm text-ink-soft hover:text-ink">
+        {phone}
+      </a>
+      <a href={ctaHref} class="btn-primary !py-2.5 !px-5 !text-sm">{ctaLabel}</a>
+    </div>
+  </div>
+</header>

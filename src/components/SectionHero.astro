@@ -1,0 +1,63 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  bullets: string[];
+  cta: { label: string; href: string };
+  image: string;
+}
+const { eyebrow, title, bullets, cta, image } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-gradient-to-br from-surface to-surface-2">
+  <div aria-hidden="true" class="absolute -top-32 -right-40 w-[600px] h-[600px] rounded-full bg-brand/10 blur-3xl"></div>
+  <div aria-hidden="true" class="absolute -bottom-40 -left-20 w-[500px] h-[500px] rounded-full bg-brand/5 blur-3xl"></div>
+
+  <div class="container-page relative grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center py-16 lg:py-24">
+    <div class="space-y-8 max-w-xl">
+      <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-brand-dark text-sm font-medium shadow-card">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
+        {eyebrow}
+      </span>
+
+      <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-brand-deep leading-[1.05]">
+        {title}
+      </h1>
+
+      <ul class="space-y-3 text-lg text-ink-soft">
+        {bullets.map((b) => (
+          <li class="flex items-start gap-3">
+            <svg aria-hidden="true" class="w-6 h-6 mt-0.5 text-brand shrink-0" viewBox="0 0 24 24" fill="none">
+              <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>{b}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="flex flex-wrap gap-4">
+        <a href={cta.href} class="btn-primary">
+          {cta.label}
+          <svg aria-hidden="true" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a href="#benefits" class="btn-ghost">Узнать больше</a>
+      </div>
+    </div>
+
+    <div class="relative">
+      <div class="absolute inset-0 -m-8 rounded-[40px] bg-white/60 backdrop-blur-sm shadow-card"></div>
+      <img
+        src={image}
+        alt="Упаковка Сустави 365"
+        width="640"
+        height="640"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        class="relative w-full max-w-xl mx-auto"
+      />
+    </div>
+  </div>
+</section>

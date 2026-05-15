@@ -1,0 +1,67 @@
+---
+interface Item {
+  icon: string;
+  title: string;
+  text: string;
+}
+interface Props {
+  title: string;
+  productImage: string;
+  items: Item[];
+}
+const { title, productImage, items } = Astro.props;
+---
+
+<section id="benefits" class="container-page py-16 lg:py-24">
+  <div class="text-center space-y-3 mb-12 lg:mb-16">
+    <p class="text-brand uppercase text-sm font-medium tracking-[0.18em]">Преимущества</p>
+    <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep">{title}</h2>
+  </div>
+
+  <div class="relative grid lg:grid-cols-[1fr_minmax(280px,440px)_1fr] gap-6 lg:gap-10 items-center">
+    <ul class="space-y-6 lg:text-right">
+      {items.slice(0, Math.ceil(items.length / 2)).map((it) => (
+        <li class="bg-white rounded-card shadow-card p-6 lg:p-7 ring-1 ring-line/50 hover:-translate-y-0.5 transition-transform">
+          <div class="flex lg:flex-row-reverse items-start gap-4">
+            <span class="grid place-items-center w-12 h-12 rounded-tile bg-brand/10 text-brand shrink-0">
+              <img src={it.icon} alt="" width="24" height="24" loading="lazy" decoding="async" />
+            </span>
+            <div>
+              <h3 class="text-lg font-semibold text-brand-deep">{it.title}</h3>
+              <p class="text-ink-soft mt-1 text-sm leading-relaxed">{it.text}</p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <div class="relative order-first lg:order-none">
+      <div aria-hidden="true" class="absolute inset-0 -m-6 rounded-full bg-gradient-to-br from-brand/15 to-transparent blur-2xl"></div>
+      <img
+        src={productImage}
+        alt="Сустави 365 — упаковка"
+        width="440"
+        height="440"
+        loading="lazy"
+        decoding="async"
+        class="relative w-full"
+      />
+    </div>
+
+    <ul class="space-y-6">
+      {items.slice(Math.ceil(items.length / 2)).map((it) => (
+        <li class="bg-white rounded-card shadow-card p-6 lg:p-7 ring-1 ring-line/50 hover:-translate-y-0.5 transition-transform">
+          <div class="flex items-start gap-4">
+            <span class="grid place-items-center w-12 h-12 rounded-tile bg-brand/10 text-brand shrink-0">
+              <img src={it.icon} alt="" width="24" height="24" loading="lazy" decoding="async" />
+            </span>
+            <div>
+              <h3 class="text-lg font-semibold text-brand-deep">{it.title}</h3>
+              <p class="text-ink-soft mt-1 text-sm leading-relaxed">{it.text}</p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  body: string;
+}
+const { title, body } = Astro.props;
+---
+
+<section class="container-page py-16 lg:py-24">
+  <div class="max-w-4xl mx-auto text-center space-y-6">
+    <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep leading-tight">
+      {title}
+    </h2>
+    <p class="text-lg lg:text-xl text-ink-soft leading-relaxed">{body}</p>
+  </div>
+</section>

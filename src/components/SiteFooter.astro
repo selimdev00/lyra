@@ -1,0 +1,54 @@
+---
+interface Props {
+  address: string;
+  phone: string;
+  email: string;
+  telegramLabel: string;
+  telegramUrl: string;
+}
+const { address, phone, email, telegramLabel, telegramUrl } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-brand-deep text-white">
+  <div class="container-page py-12 lg:py-16 grid md:grid-cols-3 gap-8">
+    <div class="space-y-3">
+      <div class="flex items-center gap-2 font-semibold text-xl">
+        <span class="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white text-sm">FM</span>
+        Сустави 365
+      </div>
+      <p class="text-sm text-white/70 max-w-xs">
+        БАД. Не является лекарственным средством. Проконсультируйтесь со специалистом перед применением.
+      </p>
+    </div>
+
+    <div class="space-y-3 text-sm">
+      <p class="text-xs uppercase tracking-wider text-white/50">Контакты</p>
+      <p class="text-white/90">{address}</p>
+      <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} class="block hover:text-brand transition">{phone}</a>
+      <a href={`mailto:${email}`} class="block hover:text-brand transition">{email}</a>
+    </div>
+
+    <div class="space-y-3 text-sm">
+      <p class="text-xs uppercase tracking-wider text-white/50">Соцсети</p>
+      <a
+        href={telegramUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M9.78 18.65 10 14.42l7.45-6.71c.33-.3-.07-.45-.5-.18L7.74 13.3l-3.97-1.25c-.85-.25-.86-.85.19-1.26l15.5-5.98c.71-.32 1.39.17 1.12 1.26l-2.64 12.43c-.18.88-.71 1.1-1.44.69l-3.97-2.93-1.91 1.86c-.22.22-.41.41-.84.41z" />
+        </svg>
+        {telegramLabel}
+      </a>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-page py-5 flex flex-wrap items-center justify-between gap-3 text-xs text-white/50">
+      <span>© {year} FMF. Все права защищены.</span>
+      <span>Политика конфиденциальности · Договор оферты</span>
+    </div>
+  </div>
+</footer>

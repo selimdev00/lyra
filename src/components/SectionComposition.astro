@@ -1,0 +1,39 @@
+---
+interface Row {
+  name: string;
+  amount: string;
+  role: string;
+}
+interface Props {
+  title: string;
+  subtitle: string;
+  rows: Row[];
+}
+const { title, subtitle, rows } = Astro.props;
+---
+
+<section id="composition" class="bg-surface py-16 lg:py-24">
+  <div class="container-page">
+    <div class="text-center space-y-4 mb-12 lg:mb-16">
+      <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep leading-tight">{title}</h2>
+      <p class="text-lg text-ink-soft max-w-3xl mx-auto">{subtitle}</p>
+    </div>
+
+    <div class="bg-white rounded-card shadow-card ring-1 ring-line/60 overflow-hidden">
+      <div role="table" class="divide-y divide-line/70">
+        <div role="row" class="grid grid-cols-[1.5fr_1fr_2fr] gap-4 px-6 py-4 bg-surface-2 text-xs font-medium uppercase tracking-wider text-brand-dark">
+          <div role="columnheader">Компонент</div>
+          <div role="columnheader">Дозировка</div>
+          <div role="columnheader">Назначение</div>
+        </div>
+        {rows.map((r) => (
+          <div role="row" class="grid grid-cols-[1.5fr_1fr_2fr] gap-4 px-6 py-4 items-center hover:bg-surface/50 transition-colors">
+            <div role="cell" class="font-medium text-brand-deep">{r.name}</div>
+            <div role="cell" class="text-brand font-semibold">{r.amount}</div>
+            <div role="cell" class="text-ink-soft text-sm">{r.role}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

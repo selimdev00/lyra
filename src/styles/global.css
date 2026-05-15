@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #3193cc;
+  --color-brand-dark: #1f5d80;
+  --color-brand-deep: #102a44;
+  --color-ink: #0e1a2b;
+  --color-ink-soft: #4a5667;
+  --color-muted: #7c8694;
+  --color-line: #d8e2eb;
+  --color-surface: #f3f8fc;
+  --color-surface-2: #e8f0f7;
+
+  --font-display: "Onest", system-ui, -apple-system, sans-serif;
+  --font-sans: "Onest", system-ui, -apple-system, sans-serif;
+
+  --radius-pill: 60px;
+  --radius-card: 24px;
+  --radius-tile: 16px;
+
+  --shadow-card: 0 12px 32px -16px rgba(16, 42, 68, 0.18);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: #fff;
+    line-height: 1.5;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  .container-page {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 4rem);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-brand);
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.125rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .btn-primary:hover {
+    background: #2680b6;
+    transform: translateY(-1px);
+  }
+  .btn-primary:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-brand) 40%, transparent);
+    outline-offset: 2px;
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-line);
+    color: var(--color-ink);
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .btn-ghost:hover {
+    background: var(--color-surface);
+  }
+}

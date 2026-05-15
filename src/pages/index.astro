@@ -1,0 +1,68 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SectionHero from "../components/SectionHero.astro";
+import SectionIntro from "../components/SectionIntro.astro";
+import SectionBenefits from "../components/SectionBenefits.astro";
+import SectionComposition from "../components/SectionComposition.astro";
+import SectionAudience from "../components/SectionAudience.astro";
+import SectionComparison from "../components/SectionComparison.astro";
+import SectionPurchase from "../components/SectionPurchase.astro";
+import SectionFaq from "../components/SectionFaq.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+const page = await getEntry("landing", "page");
+if (!page) {
+  throw new Error("Landing content missing: src/content/landing/page.yml");
+}
+const data = page.data;
+
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Сустави 365",
+  description: data.intro.body,
+  brand: { "@type": "Brand", name: "FMF" },
+  category: "Dietary supplement",
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "RUB",
+    price: data.purchase.price.replace(/[^\d]/g, ""),
+    availability: "https://schema.org/InStock",
+  },
+};
+
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "FMF",
+  url: Astro.site?.toString(),
+  email: data.contacts.email,
+  telephone: data.contacts.phone,
+  address: { "@type": "PostalAddress", streetAddress: data.contacts.address },
+};
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description} ogImage={data.seo.ogImage}>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": [productSchema, orgSchema] })}
+  />
+
+  <SiteHeader phone={data.contacts.phone} ctaLabel={data.hero.cta.label} ctaHref={data.hero.cta.href} />
+
+  <main>
+    <SectionHero {...data.hero} />
+    <SectionIntro {...data.intro} />
+    <SectionBenefits {...data.benefits} />
+    <SectionComposition {...data.composition} />
+    <SectionAudience {...data.audience} />
+    <SectionComparison {...data.comparison} />
+    <SectionPurchase {...data.purchase} ctaHref="#faq" />
+    <SectionFaq {...data.faq} />
+  </main>
+
+  <SiteFooter {...data.contacts} />
+</BaseLayout>

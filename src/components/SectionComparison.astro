@@ -1,0 +1,56 @@
+---
+interface Row {
+  feature: string;
+  product: boolean;
+  competitor: boolean;
+}
+interface Props {
+  title: string;
+  productLabel: string;
+  competitorLabel: string;
+  rows: Row[];
+}
+const { title, productLabel, competitorLabel, rows } = Astro.props;
+---
+
+<section id="comparison" class="container-page py-16 lg:py-24">
+  <div class="text-center mb-12 lg:mb-16">
+    <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep">{title}</h2>
+  </div>
+
+  <div class="overflow-x-auto -mx-4 lg:mx-0">
+    <div class="min-w-[640px] grid grid-cols-[2fr_1fr_1fr] gap-px bg-line rounded-card overflow-hidden ring-1 ring-line shadow-card">
+      <div class="bg-white px-6 py-4 text-xs uppercase tracking-wider font-medium text-muted">Свойство</div>
+      <div class="bg-brand text-white px-6 py-4 text-center font-semibold">{productLabel}</div>
+      <div class="bg-white px-6 py-4 text-center font-semibold text-ink">{competitorLabel}</div>
+
+      {rows.map((r) => (
+        <>
+          <div class="bg-white px-6 py-5 text-ink font-medium">{r.feature}</div>
+          <div class="bg-brand/5 px-6 py-5 grid place-items-center">
+            {r.product ? (
+              <svg class="w-6 h-6 text-brand" viewBox="0 0 24 24" fill="none" aria-label="Есть">
+                <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            ) : (
+              <svg class="w-5 h-5 text-muted" viewBox="0 0 24 24" fill="none" aria-label="Нет">
+                <path d="M6 6 18 18M6 18 18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            )}
+          </div>
+          <div class="bg-white px-6 py-5 grid place-items-center">
+            {r.competitor ? (
+              <svg class="w-6 h-6 text-muted" viewBox="0 0 24 24" fill="none" aria-label="Есть">
+                <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            ) : (
+              <svg class="w-5 h-5 text-muted" viewBox="0 0 24 24" fill="none" aria-label="Нет">
+                <path d="M6 6 18 18M6 18 18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            )}
+          </div>
+        </>
+      ))}
+    </div>
+  </div>
+</section>

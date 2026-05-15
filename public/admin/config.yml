@@ -1,0 +1,135 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+site_url: https://lyra.pages.dev
+display_url: https://lyra.pages.dev
+logo_url: /favicon.svg
+
+collections:
+  - name: landing
+    label: "Лендинг"
+    label_singular: "Раздел"
+    folder: src/content/landing
+    create: false
+    delete: false
+    extension: yml
+    format: yml
+    slug: "{{slug}}"
+    fields:
+      - label: "SEO"
+        name: seo
+        widget: object
+        fields:
+          - { label: "Title", name: title, widget: string }
+          - { label: "Description", name: description, widget: text }
+          - { label: "OG-картинка", name: ogImage, widget: image, required: false }
+
+      - label: "Hero"
+        name: hero
+        widget: object
+        fields:
+          - { label: "Eyebrow", name: eyebrow, widget: string }
+          - { label: "Заголовок", name: title, widget: string }
+          - { label: "Буллеты", name: bullets, widget: list }
+          - label: "CTA"
+            name: cta
+            widget: object
+            fields:
+              - { label: "Текст", name: label, widget: string }
+              - { label: "Ссылка", name: href, widget: string }
+          - { label: "Картинка продукта", name: image, widget: image }
+
+      - label: "Intro"
+        name: intro
+        widget: object
+        fields:
+          - { label: "Заголовок", name: title, widget: text }
+          - { label: "Текст", name: body, widget: text }
+
+      - label: "Преимущества"
+        name: benefits
+        widget: object
+        fields:
+          - { label: "Заголовок", name: title, widget: string }
+          - { label: "Картинка продукта", name: productImage, widget: image }
+          - label: "Карточки"
+            name: items
+            widget: list
+            fields:
+              - { label: "Иконка", name: icon, widget: image }
+              - { label: "Заголовок", name: title, widget: string }
+              - { label: "Текст", name: text, widget: text }
+
+      - label: "Состав"
+        name: composition
+        widget: object
+        fields:
+          - { label: "Заголовок", name: title, widget: string }
+          - { label: "Подзаголовок", name: subtitle, widget: string }
+          - label: "Компоненты"
+            name: rows
+            widget: list
+            fields:
+              - { label: "Название", name: name, widget: string }
+              - { label: "Дозировка", name: amount, widget: string }
+              - { label: "Назначение", name: role, widget: string }
+
+      - label: "Кому подходит"
+        name: audience
+        widget: object
+        fields:
+          - { label: "Заголовок", name: title, widget: text }
+          - { label: "Текст", name: body, widget: text }
+          - { label: "Буллеты", name: bullets, widget: list }
+          - { label: "Картинка", name: image, widget: image }
+
+      - label: "Сравнение"
+        name: comparison
+        widget: object
+        fields:
+          - { label: "Заголовок", name: title, widget: string }
+          - { label: "Лейбл продукта", name: productLabel, widget: string }
+          - { label: "Лейбл конкурента", name: competitorLabel, widget: string }
+          - label: "Строки"
+            name: rows
+            widget: list
+            fields:
+              - { label: "Свойство", name: feature, widget: string }
+              - { label: "У нас", name: product, widget: boolean, default: true }
+              - { label: "У них", name: competitor, widget: boolean, default: false }
+
+      - label: "Покупка"
+        name: purchase
+        widget: object
+        fields:
+          - { label: "Заголовок", name: title, widget: string }
+          - { label: "Цена", name: price, widget: string }
+          - { label: "Старая цена", name: oldPrice, widget: string, required: false }
+          - { label: "Примечание", name: note, widget: text }
+          - { label: "Картинка", name: image, widget: image }
+          - { label: "Текст CTA", name: ctaLabel, widget: string }
+
+      - label: "Форма"
+        name: faq
+        widget: object
+        fields:
+          - { label: "Заголовок", name: title, widget: string }
+          - { label: "Подпись формы", name: formNoteLabel, widget: string }
+          - { label: "Текст кнопки", name: submitLabel, widget: string }
+          - { label: "Текст согласия", name: consentText, widget: text }
+
+      - label: "Контакты"
+        name: contacts
+        widget: object
+        fields:
+          - { label: "Адрес", name: address, widget: string }
+          - { label: "Телефон", name: phone, widget: string }
+          - { label: "Email", name: email, widget: string }
+          - { label: "Подпись Telegram", name: telegramLabel, widget: string }
+          - { label: "Ссылка Telegram", name: telegramUrl, widget: string }
