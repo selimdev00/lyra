@@ -1,16 +1,568 @@
 ---
-interface Props {
+import CtaButton from "./CtaButton.astro";
+import BenefitCard from "./BenefitCard.astro";
+
+interface Card {
+  image: string;
+  imageAlt: string;
   title: string;
   body: string;
+  cta: { label: string; href: string };
 }
-const { title, body } = Astro.props;
+interface BenefitItem {
+  icon: string;
+  title: string;
+  text: string;
+}
+interface Props {
+  sectionTitle: string;
+  card: Card;
+  followUp: { title: string; body: string };
+  bottomBlock: { title: string; body: string; cta: { label: string; href: string } };
+  benefits?: BenefitItem[];
+}
+const { sectionTitle, card, followUp, bottomBlock, benefits = [] } = Astro.props;
+const rightBenefits = benefits.filter((_, i) => i % 2 === 0);
+const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
 ---
 
-<section class="container-page py-16 lg:py-24">
-  <div class="max-w-4xl mx-auto text-center space-y-6">
-    <h2 class="text-3xl lg:text-5xl font-semibold text-brand-deep leading-tight">
-      {title}
-    </h2>
-    <p class="text-lg lg:text-xl text-ink-soft leading-relaxed">{body}</p>
+<section id="about" class="intro-section">
+  <picture class="intro-bg intro-bg--top" aria-hidden="true">
+    <source srcset="/img/vector-44.webp" type="image/webp" />
+    <img src="/img/vector-44.png" alt="" width="1920" height="734" loading="lazy" decoding="async" />
+  </picture>
+  <picture class="intro-bg intro-bg--bottom" aria-hidden="true">
+    <source srcset="/img/vector-45.webp" type="image/webp" />
+    <img src="/img/vector-45.png" alt="" width="1920" height="958" loading="lazy" decoding="async" />
+  </picture>
+
+  <div class="container-page">
+    <h2 class="intro-title" data-reveal>{sectionTitle}</h2>
+
+    <div class="intro-row" data-reveal>
+      <picture class="intro-card-image">
+        <source srcset={card.image} type="image/webp" />
+        <img
+          src="/img/intro-card.jpg"
+          alt={card.imageAlt}
+          width="753"
+          height="479"
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+
+      <div class="intro-card-content">
+        <div class="intro-card-text">
+          <p class="intro-card-title">{card.title}</p>
+          <p class="intro-card-body">{card.body}</p>
+        </div>
+        <CtaButton label={card.cta.label} href={card.cta.href} variant="brand" size="lg" />
+      </div>
+    </div>
+
+    <div class="intro-followup intro-followup--mobile">
+      <p class="intro-followup__title">{followUp.title}</p>
+      <p class="intro-followup__body">{followUp.body}</p>
+    </div>
+
+    <picture class="intro-mobile-banka" aria-hidden="true">
+      <source srcset="/img/banka-straight.webp" type="image/webp" />
+      <img src="/img/banka-straight.png" alt="" width="306" height="387" loading="lazy" decoding="async" />
+    </picture>
+
+    <div class="intro-bottom intro-bottom--desktop">
+      <div class="intro-banka-layer" aria-hidden="true">
+        <div class="intro-sticky-inner">
+          <div class="banka-pair" data-banka-pair>
+            <picture class="banka-pair__item banka-pair__item--left">
+              <source srcset="/img/banka-sticky.webp" type="image/webp" />
+              <img src="/img/banka-sticky.png" alt="" width="598" height="460" loading="lazy" decoding="async" class="intro-sticky-banka" />
+            </picture>
+            <picture class="banka-pair__item banka-pair__item--right">
+              <source srcset="/img/banka-sticky.webp" type="image/webp" />
+              <img src="/img/banka-sticky.png" alt="" width="598" height="460" loading="lazy" decoding="async" class="intro-sticky-banka" />
+            </picture>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-grid">
+        <div class="intro-grid__left">
+          <div class="intro-followup intro-followup--desktop" data-reveal>
+            <p class="intro-followup__title">{followUp.title}</p>
+            <p class="intro-followup__body">{followUp.body}</p>
+          </div>
+          {leftBenefits.map((b) => (
+            <div data-reveal>
+              <BenefitCard icon={b.icon} title={b.title} body={b.text} />
+            </div>
+          ))}
+        </div>
+
+        <div class="intro-grid__right">
+          {rightBenefits.map((b) => (
+            <div data-reveal>
+              <BenefitCard icon={b.icon} title={b.title} body={b.text} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-slider" data-slider>
+      <div class="intro-slider__track" data-slider-track>
+        {benefits.map((b) => (
+          <div class="intro-slider__slide">
+            <BenefitCard icon={b.icon} title={b.title} body={b.text} />
+          </div>
+        ))}
+      </div>
+      <div class="intro-slider__nav" aria-hidden="true">
+        <button type="button" class="intro-slider__btn" data-slider-prev aria-label="Назад">
+          <img src="/img/icon-slider-nav.svg" alt="" width="20" height="20" />
+        </button>
+        <button type="button" class="intro-slider__btn intro-slider__btn--next" data-slider-next aria-label="Вперёд">
+          <img src="/img/icon-slider-nav.svg" alt="" width="20" height="20" />
+        </button>
+      </div>
+    </div>
+
+    <div class="intro-mobile-double" aria-hidden="true">
+      <picture><source srcset="/img/banka-straight.webp" type="image/webp" /><img src="/img/banka-straight.png" alt="" width="196" height="248" loading="lazy" decoding="async" /></picture>
+      <picture><source srcset="/img/banka-straight.webp" type="image/webp" /><img src="/img/banka-straight.png" alt="" width="196" height="248" loading="lazy" decoding="async" /></picture>
+    </div>
+
+    <div class="intro-bottom-block" data-reveal>
+      <h2 class="intro-bottom-block__title">{bottomBlock.title}</h2>
+      <p class="intro-bottom-block__body">{bottomBlock.body}</p>
+      <CtaButton label={bottomBlock.cta.label} href={bottomBlock.cta.href} variant="brand" size="lg" />
+    </div>
   </div>
 </section>
+
+<script>
+  const sliderTrack = document.querySelector<HTMLElement>("[data-slider-track]");
+  const sliderPrev = document.querySelector<HTMLButtonElement>("[data-slider-prev]");
+  const sliderNext = document.querySelector<HTMLButtonElement>("[data-slider-next]");
+  if (sliderTrack && sliderPrev && sliderNext) {
+    const updateNav = () => {
+      const atStart = sliderTrack.scrollLeft <= 2;
+      const atEnd = sliderTrack.scrollLeft + sliderTrack.clientWidth >= sliderTrack.scrollWidth - 2;
+      sliderPrev.style.visibility = atStart ? "hidden" : "visible";
+      sliderNext.style.visibility = atEnd ? "hidden" : "visible";
+    };
+    const scrollBy = (dir: 1 | -1) => {
+      const slide = sliderTrack.querySelector<HTMLElement>(".intro-slider__slide");
+      const step = slide ? slide.offsetWidth + 16 : 320;
+      sliderTrack.scrollBy({ left: dir * step, behavior: "smooth" });
+    };
+    sliderPrev.addEventListener("click", () => scrollBy(-1));
+    sliderNext.addEventListener("click", () => scrollBy(1));
+    sliderTrack.addEventListener("scroll", updateNav, { passive: true });
+    window.addEventListener("resize", updateNav);
+    updateNav();
+  }
+
+  const pair = document.querySelector<HTMLElement>("[data-banka-pair]");
+  const rightCol = document.querySelector<HTMLElement>(".intro-grid__right");
+  if (pair && rightCol) {
+    const onScroll = () => {
+      const lastCard = rightCol.lastElementChild as HTMLElement | null;
+      if (!lastCard) return;
+      const cardRect = lastCard.getBoundingClientRect();
+      pair.classList.toggle("is-split", cardRect.bottom < window.innerHeight * 0.25);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+  }
+</script>
+
+<style>
+  .intro-section {
+    padding-top: clamp(120px, 16vh, 210px);
+    padding-bottom: clamp(80px, 12vh, 160px);
+    background: #f3f3f3;
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+  }
+  .intro-bg {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .intro-bg img {
+    width: auto;
+    height: auto;
+    max-width: none;
+    display: block;
+  }
+  .intro-bg--top {
+    top: calc(50vh + 240px);
+  }
+  .intro-bg--bottom {
+    bottom: 80px;
+  }
+  .intro-title {
+    max-width: 1530px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: clamp(32px, 4.5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: #1c1c1c;
+  }
+  .intro-row {
+    margin-top: clamp(60px, 9vh, 120px);
+    display: grid;
+    grid-template-columns: minmax(0, 753px) minmax(0, 908px);
+    gap: 179px;
+    align-items: center;
+  }
+  .intro-card-image {
+    display: block;
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    aspect-ratio: 753 / 479;
+    background: #e8f0f7;
+  }
+  .intro-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .intro-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .intro-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .intro-card-title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #1c1c1c;
+  }
+  .intro-card-body {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #808080;
+    max-width: 646px;
+  }
+
+  .intro-bottom {
+    margin-top: clamp(140px, 16vh, 220px);
+    position: relative;
+    padding-bottom: clamp(700px, 90vh, 1080px);
+  }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(420px, 32vw, 580px);
+    align-items: start;
+  }
+  .intro-grid__left {
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 480px;
+  }
+  .intro-grid__right {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 480px;
+  }
+  .intro-grid__right :global(.bcard:first-of-type) {
+    margin-top: clamp(180px, 26vh, 400px);
+  }
+  .intro-banka-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .intro-followup {
+    max-width: 597px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .intro-sticky-inner {
+    position: sticky;
+    top: calc(50vh - 310px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .banka-pair {
+    position: relative;
+    width: 620px;
+    height: 620px;
+  }
+  .banka-pair__item {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    max-width: 620px;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.4s ease;
+    will-change: transform, opacity;
+  }
+  .banka-pair__item--left {
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  .banka-pair__item--right {
+    transform: translateX(-50%);
+    z-index: 1;
+    opacity: 0;
+  }
+  .banka-pair__item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 24px 48px rgba(16, 42, 68, 0.18));
+  }
+  .banka-pair.is-split .banka-pair__item--left {
+    transform: translateX(calc(-50% - 240px)) scale(0.78);
+  }
+  .banka-pair.is-split .banka-pair__item--right {
+    transform: translateX(calc(-50% + 240px)) scale(0.78);
+    opacity: 1;
+  }
+  .intro-sticky-banka {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .intro-followup__title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    color: #1c1c1c;
+  }
+  .intro-followup__body {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #808080;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .banka-pair__item { transition: none !important; }
+  }
+
+  .intro-bottom-block {
+    margin-top: clamp(-100px, -10vh, -40px);
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  .intro-bottom-block__title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 0.9;
+    color: #3496ce;
+    max-width: 1000px;
+  }
+  .intro-bottom-block__body {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    color: #1c1c1c;
+    max-width: 616px;
+  }
+
+  .intro-slider__track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 60px 16px;
+    margin-inline: -16px;
+    scrollbar-width: none;
+  }
+  .intro-slider__track::-webkit-scrollbar { display: none; }
+  .intro-slider__slide {
+    flex: 0 0 calc(100% - 32px);
+    scroll-snap-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  .intro-slider { position: relative; }
+  .intro-slider__nav { pointer-events: none; }
+  .intro-slider__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 0;
+    background: #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 12px -4px rgba(16, 42, 68, 0.18);
+    z-index: 2;
+  }
+  .intro-slider__btn { width: 40px; height: 40px; }
+  .intro-slider__btn img { width: 32px !important; height: 32px !important; }
+  .intro-slider__btn[data-slider-prev] { left: -12px; }
+  .intro-slider__btn[data-slider-prev] img { transform: rotate(180deg); }
+  .intro-slider__btn[data-slider-next] { right: -12px; }
+  .intro-slider__btn[data-slider-next] img { transform: none; }
+  .intro-slider__btn img { width: 20px; height: 20px; }
+  .intro-slider__btn--next img { transform: rotate(180deg); }
+
+  .intro-followup--mobile { display: none; }
+  .intro-mobile-banka { display: none; }
+  .intro-mobile-double { display: none; }
+  .intro-slider { display: none; }
+
+  @media (max-width: 1023px) {
+    .intro-section {
+      padding-top: 40px;
+      padding-bottom: 32px;
+    }
+    .intro-section .container-page {
+      padding-inline: 16px;
+    }
+    .intro-title {
+      font-size: 32px;
+      line-height: 1;
+      text-align: left;
+      letter-spacing: -0.01em;
+      max-width: none;
+      color: #1c1c1c;
+    }
+    .intro-row {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .intro-card-image {
+      aspect-ratio: auto;
+      height: 218px;
+      border-radius: 16px;
+    }
+    .intro-card-content {
+      gap: 16px;
+    }
+    .intro-card-text { gap: 16px; }
+    .intro-card-title {
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: #1c1c1c;
+    }
+    .intro-card-body {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: #808080;
+      max-width: none;
+    }
+
+    .intro-followup--desktop { display: none; }
+    .intro-followup--mobile {
+      display: flex;
+      max-width: 100%;
+      gap: 8px;
+      margin-top: 80px;
+    }
+    .intro-followup__title {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: #1c1c1c;
+    }
+    .intro-followup__body {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: #808080;
+    }
+
+    .intro-bottom--desktop { display: none; }
+    .intro-slider { display: block; margin-top: 32px; }
+
+    .intro-mobile-banka {
+      display: block;
+      margin: 32px auto 0;
+      width: min(80vw, 300px);
+    }
+    .intro-mobile-banka img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .intro-mobile-double {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+      margin-top: 32px;
+      position: relative;
+      overflow: visible;
+    }
+    .intro-mobile-double picture {
+      width: 196px;
+      height: 248px;
+      display: block;
+      flex-shrink: 0;
+    }
+    .intro-mobile-double {
+      gap: 56px;
+    }
+    .intro-mobile-double picture:first-child {
+      margin-right: 0;
+      z-index: 2;
+    }
+    .intro-mobile-double picture:last-child {
+      margin-left: 0;
+      z-index: 1;
+    }
+    .intro-mobile-double img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .intro-bottom-block { margin-top: 48px; }
+    .intro-bottom-block__title { font-size: 32px; }
+    .intro-bottom-block__body { font-size: 18px; }
+  }
+</style>
