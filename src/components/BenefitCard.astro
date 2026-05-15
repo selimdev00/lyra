@@ -1,0 +1,123 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  body: string;
+  iconAlt?: string;
+}
+const { icon, title, body, iconAlt = "" } = Astro.props;
+---
+
+<article class="bcard">
+  <span class="bcard__icon" aria-hidden="true">
+    <span class="bcard__icon-inner">
+      <img src={icon} alt={iconAlt} width="40" height="40" loading="lazy" decoding="async" />
+    </span>
+  </span>
+
+  <div class="bcard__body">
+    <h3 class="bcard__title">{title}</h3>
+    <p class="bcard__text">{body}</p>
+  </div>
+</article>
+
+<style>
+  .bcard {
+    position: relative;
+    width: 100%;
+    max-width: 597px;
+    min-height: 320px;
+    background: #3496ce;
+    border-radius: 24px;
+    padding: 84px 32px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 16px 40px -20px rgba(16, 42, 68, 0.3);
+  }
+
+  .bcard__icon {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #fff;
+    display: grid;
+    place-items: center;
+  }
+  .bcard__icon-inner {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #3496ce;
+    display: grid;
+    place-items: center;
+  }
+  .bcard__icon-inner img {
+    width: 40px;
+    height: 40px;
+    display: block;
+  }
+
+  .bcard__body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+  }
+  .bcard__title {
+    font-family: "Onest", sans-serif;
+    font-weight: 500;
+    font-size: clamp(28px, 2.6vw, 40px);
+    line-height: 1;
+    max-width: 347px;
+    color: #fff;
+  }
+  .bcard__text {
+    font-family: "Onest", sans-serif;
+    font-weight: 400;
+    font-size: clamp(15px, 1.15vw, 18px);
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  @media (max-width: 1023px) {
+    .bcard {
+      max-width: 327px;
+      min-height: 255px;
+      border-radius: 16px;
+      padding: 64px 16px 32px;
+    }
+    .bcard__icon {
+      top: -48px;
+      width: 96px;
+      height: 96px;
+    }
+    .bcard__icon-inner {
+      width: 80px;
+      height: 80px;
+    }
+    .bcard__icon-inner img {
+      width: 32px;
+      height: 32px;
+    }
+    .bcard__body {
+      gap: 16px;
+    }
+    .bcard__title {
+      font-size: 24px;
+      line-height: 1;
+    }
+    .bcard__text {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+  }
+</style>
