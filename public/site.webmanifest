@@ -1,0 +1,19 @@
+{
+  "name": "Complex SW СУСТАВЫ",
+  "short_name": "Суставы",
+  "description": "БАД для опорно-двигательного аппарата от Оптисалт.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f3f3f3",
+  "theme_color": "#3193cc",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
