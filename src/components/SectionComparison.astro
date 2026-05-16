@@ -282,10 +282,25 @@ const { title, description, banka, course, portion } = Astro.props;
 
 <script>
   const grid = document.querySelector<HTMLElement>(".cmp-grid");
+  const portion = document.querySelector<HTMLElement>(".cmp-portion");
+  const course = document.querySelector<HTMLElement>(".cmp-course");
   const portionIcon = document.querySelector<HTMLElement>(".cmp-portion .cmp-icon");
   const courseIcon = document.querySelector<HTMLElement>(".cmp-course .cmp-icon");
+  const portionTitle = document.querySelector<HTMLElement>(".cmp-portion__title");
+  const courseTitle = document.querySelector<HTMLElement>(".cmp-course__title");
   const lineL = document.querySelector<HTMLElement>("[data-cmp-line-left]");
   const lineR = document.querySelector<HTMLElement>("[data-cmp-line-right]");
+
+  const place = (icon: HTMLElement, title: HTMLElement, line: HTMLElement, leftOffset: number, width: number, gTop: number) => {
+    const ir = icon.getBoundingClientRect();
+    const tr = title.getBoundingClientRect();
+    const lineH = line.getBoundingClientRect().height || 2;
+    const mid = (ir.bottom + tr.top) / 2;
+    line.style.top = (mid - gTop - lineH / 2) + "px";
+    line.style.left = leftOffset + "px";
+    line.style.width = width + "px";
+  };
+
   const update = () => {
     if (!grid) return;
     const g = grid.getBoundingClientRect();
@@ -293,26 +308,28 @@ const { title, description, banka, course, portion } = Astro.props;
     const padL = parseFloat(cs.paddingLeft) || 0;
     const padR = parseFloat(cs.paddingRight) || 0;
     const contentWidth = g.width - padL - padR;
-    const portionTitle = document.querySelector<HTMLElement>(".cmp-portion__title");
-    const courseTitle = document.querySelector<HTMLElement>(".cmp-course__title");
-    if (portionIcon && portionTitle && lineL) {
-      const ir = portionIcon.getBoundingClientRect();
-      const tr = portionTitle.getBoundingClientRect();
-      const mid = (ir.bottom + tr.top) / 2;
-      lineL.style.top = (mid - g.top) + "px";
-      lineL.style.left = padL + "px";
-      lineL.style.width = (contentWidth / 2) + "px";
-    }
-    if (courseIcon && courseTitle && lineR) {
-      const ir = courseIcon.getBoundingClientRect();
-      const tr = courseTitle.getBoundingClientRect();
-      const mid = (ir.bottom + tr.top) / 2;
-      lineR.style.top = (mid - g.top) + "px";
-      lineR.style.left = (padL + contentWidth / 2) + "px";
-      lineR.style.width = (contentWidth / 2) + "px";
-    }
+    const half = contentWidth / 2;
+    if (portionIcon && portionTitle && lineL) place(portionIcon, portionTitle, lineL, padL, half, g.top);
+    if (courseIcon && courseTitle && lineR) place(courseIcon, courseTitle, lineR, padL + half, half, g.top);
   };
+
+  const schedule = () => requestAnimationFrame(update);
+
   update();
-  window.addEventListener("resize", update);
-  window.addEventListener("load", update);
+  window.addEventListener("resize", schedule);
+  window.addEventListener("load", schedule);
+  window.addEventListener("scroll", schedule, { passive: true });
+  // re-place after reveal transitions finish (data-reveal translates Y by 28px)
+  [portion, course].forEach((el) => {
+    el?.addEventListener("transitionend", schedule);
+  });
+  // re-place when fonts load (text metrics change)
+  if (document.fonts?.ready) document.fonts.ready.then(schedule);
+  // safety net: re-place on any size change of grid or referenced elements
+  if ("ResizeObserver" in window) {
+    const ro = new ResizeObserver(schedule);
+    [grid, portion, course, portionIcon, courseIcon, portionTitle, courseTitle].forEach((el) => {
+      if (el) ro.observe(el);
+    });
+  }
 </script>
