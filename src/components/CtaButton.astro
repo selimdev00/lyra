@@ -16,33 +16,17 @@ const {
   class: extraClass = "",
 } = Astro.props;
 
-const padText = size === "lg" ? "px-6 py-4 text-2xl leading-6" : "px-6 py-3 text-lg";
-const padIcon = size === "lg" ? "p-4" : "p-3";
-const iconSize = 24;
-
-const palette =
-  variant === "brand"
-    ? "bg-brand text-white hover:bg-[color:var(--color-brand-dark)]"
-    : "bg-white text-[color:var(--color-brand-dark)] hover:bg-white/95";
+const classes = ["cta-btn", `cta-btn--${variant}`, `cta-btn--${size}`, extraClass]
+  .filter(Boolean)
+  .join(" ");
 ---
 
-<a
-  href={href}
-  aria-label={ariaLabel ?? label}
-  class={`group inline-flex items-center gap-0 ${extraClass}`}
->
-  <span
-    class={`${padText} rounded-pill ${palette} font-medium leading-6 whitespace-nowrap transition-colors shadow-sm`}
-  >
-    {label}
-  </span>
-  <span
-    aria-hidden="true"
-    class={`grid place-items-center ${padIcon} rounded-pill ${palette} transition-transform group-hover:translate-x-0.5 shadow-sm`}
-  >
+<a href={href} aria-label={ariaLabel ?? label} class={classes}>
+  <span class="cta-btn__label">{label}</span>
+  <span class="cta-btn__icon" aria-hidden="true">
     <svg
-      width={iconSize}
-      height={iconSize}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

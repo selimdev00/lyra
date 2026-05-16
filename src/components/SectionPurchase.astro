@@ -3,7 +3,6 @@ import CtaButton from "./CtaButton.astro";
 
 interface Props {
   productTitle: string;
-  productImage: string;
   price: string;
   meta: string;
   cta: { label: string; href: string };
@@ -11,7 +10,7 @@ interface Props {
   usageImage: string;
   usageSteps: string[];
 }
-const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, usageSteps } = Astro.props;
+const { productTitle, price, meta, cta, usageTitle, usageImage, usageSteps } = Astro.props;
 ---
 
 <section id="order" class="pur-section">
@@ -50,8 +49,8 @@ const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, us
 
 <style>
   .pur-section {
-    background: #f3f3f3;
-    padding-block: clamp(60px, 8vh, 120px);
+    background: var(--color-surface);
+    padding-block: var(--space-section);
   }
   .pur-grid {
     display: grid;
@@ -59,8 +58,8 @@ const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, us
     gap: 24px;
   }
   .pur-card {
-    border-radius: 24px;
-    padding: 80px 80px;
+    border-radius: var(--radius-card);
+    padding: 80px;
     height: 824px;
     display: flex;
     flex-direction: column;
@@ -71,18 +70,17 @@ const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, us
     position: relative;
   }
   .pur-card--product {
-    background: #2f9dcf;
+    background: var(--color-brand);
     color: #fff;
   }
   .pur-card--usage {
     background: #fff;
-    color: #1c1c1c;
+    color: var(--color-ink);
     box-shadow: 0 12px 40px -24px rgba(16, 42, 68, 0.12);
-    ring: 1px solid #ebebeb;
-    border: 1px solid #ebebeb;
+    border: 1px solid var(--color-line);
   }
   .pur-card__title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 32px;
     line-height: 1.2;
@@ -93,7 +91,7 @@ const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, us
     position: absolute;
     inset: 0;
     z-index: 0;
-    border-radius: 24px;
+    border-radius: var(--radius-card);
     overflow: hidden;
     opacity: 0.2;
     pointer-events: none;
@@ -134,13 +132,13 @@ const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, us
     align-items: center;
   }
   .pur-card__price {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 32px;
     line-height: 1.2;
   }
   .pur-card__meta {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 16px;
     line-height: 1.2;
@@ -163,11 +161,11 @@ const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, us
     flex-direction: column;
     gap: 12px;
     align-items: center;
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 24px;
     line-height: 1;
-    color: #1c1c1c;
+    color: var(--color-ink);
     max-width: 311px;
   }
 
@@ -185,7 +183,7 @@ const { productTitle, productImage, price, meta, cta, usageTitle, usageImage, us
       height: auto;
       min-height: auto;
       padding: 40px 28px;
-      border-radius: 16px;
+      border-radius: var(--radius-mobile);
       gap: 16px;
     }
     .pur-card--usage {

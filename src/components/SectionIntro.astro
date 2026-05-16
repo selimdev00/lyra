@@ -182,8 +182,8 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
 <style>
   .intro-section {
     padding-top: clamp(120px, 16vh, 210px);
-    padding-bottom: clamp(80px, 12vh, 160px);
-    background: #f3f3f3;
+    padding-bottom: var(--space-section-lg);
+    background: var(--color-surface);
     position: relative;
     isolation: isolate;
     overflow: clip;
@@ -211,12 +211,12 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     max-width: 1530px;
     margin: 0 auto;
     text-align: center;
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: clamp(32px, 4.5vw, 64px);
     line-height: 1;
     letter-spacing: -0.01em;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .intro-row {
     margin-top: clamp(60px, 9vh, 120px);
@@ -228,10 +228,10 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
   .intro-card-image {
     display: block;
     width: 100%;
-    border-radius: 24px;
+    border-radius: var(--radius-card);
     overflow: hidden;
     aspect-ratio: 753 / 479;
-    background: #e8f0f7;
+    background: var(--color-surface-2);
   }
   .intro-card-image img {
     width: 100%;
@@ -251,18 +251,18 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     gap: 24px;
   }
   .intro-card-title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 32px;
     line-height: 1.2;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .intro-card-body {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 18px;
     line-height: 1.2;
-    color: #6b6b6b;
+    color: var(--color-muted);
     max-width: 646px;
   }
 
@@ -327,7 +327,7 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     left: 50%;
     width: 100%;
     max-width: 620px;
-    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.4s ease;
+    transition: transform 0.9s var(--ease-out-soft), opacity 1.4s ease;
     will-change: transform, opacity;
   }
   .banka-pair__item--left {
@@ -358,18 +358,18 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     object-fit: contain;
   }
   .intro-followup__title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 24px;
     line-height: 1.2;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .intro-followup__body {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 18px;
     line-height: 1.2;
-    color: #6b6b6b;
+    color: var(--color-muted);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -387,19 +387,19 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     text-align: center;
   }
   .intro-bottom-block__title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 64px;
     line-height: 0.9;
-    color: #3193cc;
+    color: var(--color-brand);
     max-width: 1000px;
   }
   .intro-bottom-block__body {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 24px;
     line-height: 1.2;
-    color: #1c1c1c;
+    color: var(--color-ink);
     max-width: 616px;
   }
 
@@ -438,14 +438,10 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     box-shadow: 0 4px 12px -4px rgba(16, 42, 68, 0.18);
     z-index: 2;
   }
-  .intro-slider__btn { width: 40px; height: 40px; }
-  .intro-slider__btn img { width: 32px !important; height: 32px !important; }
+  .intro-slider__btn img { width: 32px; height: 32px; }
   .intro-slider__btn[data-slider-prev] { left: -12px; }
   .intro-slider__btn[data-slider-prev] img { transform: rotate(180deg); }
   .intro-slider__btn[data-slider-next] { right: -12px; }
-  .intro-slider__btn[data-slider-next] img { transform: none; }
-  .intro-slider__btn img { width: 20px; height: 20px; }
-  .intro-slider__btn--next img { transform: rotate(180deg); }
 
   .intro-followup--mobile { display: none; }
   .intro-mobile-banka { display: none; }
@@ -466,7 +462,6 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
       text-align: left;
       letter-spacing: -0.01em;
       max-width: none;
-      color: #1c1c1c;
     }
     .intro-row {
       grid-template-columns: 1fr;
@@ -484,15 +479,11 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     .intro-card-text { gap: 16px; }
     .intro-card-title {
       font-size: 20px;
-      font-weight: 500;
       line-height: 1.2;
-      color: #1c1c1c;
     }
     .intro-card-body {
       font-size: 16px;
-      font-weight: 400;
       line-height: 1.2;
-      color: #6b6b6b;
       max-width: none;
     }
 
@@ -505,15 +496,11 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     }
     .intro-followup__title {
       font-size: 18px;
-      font-weight: 500;
       line-height: 1.2;
-      color: #1c1c1c;
     }
     .intro-followup__body {
       font-size: 16px;
-      font-weight: 400;
       line-height: 1.2;
-      color: #6b6b6b;
     }
 
     .intro-bottom--desktop { display: none; }

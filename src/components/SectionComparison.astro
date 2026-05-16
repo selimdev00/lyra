@@ -46,8 +46,8 @@ const { title, description, banka, course, portion } = Astro.props;
 
 <style>
   .cmp-section {
-    background: #f3f3f3;
-    padding-block: clamp(80px, 12vh, 160px);
+    background: var(--color-surface);
+    padding-block: var(--space-section-lg);
   }
   .cmp-grid {
     position: relative;
@@ -67,22 +67,22 @@ const { title, description, banka, course, portion } = Astro.props;
     max-width: 600px;
   }
   .cmp-title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 48px;
     line-height: 1.1;
     letter-spacing: -0.01em;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .cmp-desc {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 18px;
     line-height: 1.2;
-    color: #6b6b6b;
+    color: var(--color-muted);
     max-width: 600px;
   }
   .cmp-banka {
@@ -130,7 +130,7 @@ const { title, description, banka, course, portion } = Astro.props;
     max-width: 100%;
     height: 2px;
     border: 0;
-    background: #DAE2EA;
+    background: var(--color-line-2);
     margin: 0;
   }
   .cmp-portion {
@@ -147,7 +147,7 @@ const { title, description, banka, course, portion } = Astro.props;
     position: absolute;
     top: -16px;
     height: 2px;
-    background: #DAE2EA;
+    background: var(--color-line-2);
     border: 0;
     margin: 0;
     pointer-events: none;
@@ -164,19 +164,19 @@ const { title, description, banka, course, portion } = Astro.props;
   }
   .cmp-course__title,
   .cmp-portion__title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 32px;
     line-height: 1.1;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .cmp-course__body,
   .cmp-portion__body {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 18px;
     line-height: 1.2;
-    color: #6b6b6b;
+    color: var(--color-muted);
   }
 
   @media (min-width: 1024px) and (max-width: 1279px) {
@@ -293,15 +293,21 @@ const { title, description, banka, course, portion } = Astro.props;
     const padL = parseFloat(cs.paddingLeft) || 0;
     const padR = parseFloat(cs.paddingRight) || 0;
     const contentWidth = g.width - padL - padR;
-    if (portionIcon && lineL) {
-      const r = portionIcon.getBoundingClientRect();
-      lineL.style.top = (r.bottom + 16 - g.top) + "px";
+    const portionTitle = document.querySelector<HTMLElement>(".cmp-portion__title");
+    const courseTitle = document.querySelector<HTMLElement>(".cmp-course__title");
+    if (portionIcon && portionTitle && lineL) {
+      const ir = portionIcon.getBoundingClientRect();
+      const tr = portionTitle.getBoundingClientRect();
+      const mid = (ir.bottom + tr.top) / 2;
+      lineL.style.top = (mid - g.top) + "px";
       lineL.style.left = padL + "px";
       lineL.style.width = (contentWidth / 2) + "px";
     }
-    if (courseIcon && lineR) {
-      const r = courseIcon.getBoundingClientRect();
-      lineR.style.top = (r.bottom + 16 - g.top) + "px";
+    if (courseIcon && courseTitle && lineR) {
+      const ir = courseIcon.getBoundingClientRect();
+      const tr = courseTitle.getBoundingClientRect();
+      const mid = (ir.bottom + tr.top) / 2;
+      lineR.style.top = (mid - g.top) + "px";
       lineR.style.left = (padL + contentWidth / 2) + "px";
       lineR.style.width = (contentWidth / 2) + "px";
     }

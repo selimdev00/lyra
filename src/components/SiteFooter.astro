@@ -32,7 +32,7 @@ const { logo, copyright, rights, disclaimer, links } = Astro.props;
 <style>
   .ft {
     background: #fff;
-    border-top: 1px solid #ebebeb;
+    border-top: 1px solid var(--color-line);
   }
   .ft-grid {
     display: grid;
@@ -42,11 +42,11 @@ const { logo, copyright, rights, disclaimer, links } = Astro.props;
     align-items: end;
   }
   .ft-left p, .ft-right a {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 18px;
     line-height: 1.2;
-    color: #1c1c1c;
+    color: var(--color-ink);
     margin: 0;
   }
   .ft-left p + p, .ft-right a + a { margin-top: 12px; }
@@ -62,11 +62,11 @@ const { logo, copyright, rights, disclaimer, links } = Astro.props;
     width: auto;
   }
   .ft-disclaimer {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 14px;
     line-height: 1.2;
-    color: #6b6b6b;
+    color: var(--color-muted);
     text-align: center;
   }
   .ft-right {

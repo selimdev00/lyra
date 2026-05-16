@@ -14,7 +14,7 @@ const titleLines = title.split(" ");
 ---
 
 <section class="hero">
-  <picture class="absolute inset-0 -z-20">
+  <picture class="hero-bg">
     <source srcset="/img/hero-bg.webp" type="image/webp" />
     <img
       src="/img/hero-bg.jpg"
@@ -24,16 +24,12 @@ const titleLines = title.split(" ");
       loading="eager"
       decoding="async"
       fetchpriority="high"
-      class="w-full h-full object-cover object-right"
     />
   </picture>
 
-  <div
-    aria-hidden="true"
-    class="absolute inset-0 -z-10 bg-gradient-to-r from-brand-deep/55 via-brand-dark/25 to-transparent"
-  ></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
 
-  <div class="hero-grid container-page relative h-full">
+  <div class="hero-grid container-page">
     <div class="hero-left">
       <h1 class="hero-title">
         <span>{titleLines[0]}</span>
@@ -41,7 +37,7 @@ const titleLines = title.split(" ");
       </h1>
 
       <div class="hero-above-line">
-        <p class="hero-subtitle mt-3">{subtitle}</p>
+        <p class="hero-subtitle">{subtitle}</p>
         <CtaButton label={cta.label} href={cta.href} variant="white" size="lg" class="hero-cta" />
       </div>
     </div>
@@ -61,7 +57,7 @@ const titleLines = title.split(" ");
       loading="eager"
       decoding="async"
       fetchpriority="high"
-      class="hero-banka select-none"
+      class="hero-banka"
     />
 
     <div class="hero-kicker">

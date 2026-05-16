@@ -52,7 +52,6 @@ const landing = defineCollection({
       }),
     }),
     benefits: z.object({
-      title: z.string(),
       items: z.array(
         z.object({
           icon: z.string(),
@@ -60,7 +59,6 @@ const landing = defineCollection({
           text: z.string(),
         })
       ),
-      productImage: z.string(),
     }),
     composition: z.object({
       titleLead: z.string(),
@@ -101,7 +99,6 @@ const landing = defineCollection({
     }),
     purchase: z.object({
       productTitle: z.string(),
-      productImage: z.string(),
       price: z.string(),
       meta: z.string(),
       cta: z.object({ label: z.string(), href: z.string() }),

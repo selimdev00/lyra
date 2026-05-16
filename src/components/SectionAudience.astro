@@ -99,12 +99,12 @@ const { title, image, cards, activeIndex = 1 } = Astro.props;
     min-height: 809px;
   }
   .aud-title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: clamp(28px, 3.2vw, 48px);
     line-height: 1.1;
     letter-spacing: -0.01em;
-    color: #1c1c1c;
+    color: var(--color-ink);
     max-width: 908px;
   }
   .aud-controls {
@@ -123,7 +123,7 @@ const { title, image, cards, activeIndex = 1 } = Astro.props;
     border-radius: 40px;
     border: 0;
     background: #fff;
-    color: #3193cc;
+    color: var(--color-brand);
     cursor: pointer;
     display: grid;
     place-items: center;
@@ -147,7 +147,7 @@ const { title, image, cards, activeIndex = 1 } = Astro.props;
     position: absolute;
     top: 0;
     left: calc(50% - 597px / 2 - var(--active, 0) * (597px + 24px));
-    transition: left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: left 0.5s var(--ease-out-soft);
     will-change: left;
   }
   .aud-card {
@@ -169,16 +169,16 @@ const { title, image, cards, activeIndex = 1 } = Astro.props;
   .aud-card--active {
     background: #fff;
     border-color: transparent;
-    color: #3193cc;
+    color: var(--color-brand);
   }
   .aud-card__age {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 32px;
     line-height: 1;
   }
   .aud-card__text {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 18px;
     line-height: 1.2;
@@ -206,7 +206,7 @@ const { title, image, cards, activeIndex = 1 } = Astro.props;
     }
     .aud-curve { display: none; }
     .aud-title {
-      color: #1c1c1c !important;
+      color: var(--color-ink) !important;
       font-size: 32px;
       font-weight: 500;
       line-height: 1.1;

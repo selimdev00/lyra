@@ -111,23 +111,23 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
 
 <style>
   .ct-section {
-    background: #f3f3f3;
-    padding-block: clamp(60px, 8vh, 120px);
+    background: var(--color-surface);
+    padding-block: var(--space-section);
   }
   .ct-card {
     background: #fff;
-    border-radius: 24px;
+    border-radius: var(--radius-card);
     padding: 40px;
     display: flex;
     flex-direction: column;
     gap: 40px;
   }
   .ct-title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: clamp(28px, 3.2vw, 48px);
     line-height: 1;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .ct-row {
     display: grid;
@@ -144,16 +144,16 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
   }
   .ct-block { display: flex; flex-direction: column; gap: 12px; }
   .ct-label {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 16px;
-    color: #5c6b60;
+    color: var(--color-muted);
   }
   .ct-email {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: clamp(22px, 2.1vw, 32px);
-    color: #3193cc;
+    color: var(--color-brand);
     text-decoration: underline;
   }
   .ct-messengers { display: flex; gap: 8px; }
@@ -177,21 +177,21 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
   }
   .ct-field { display: flex; flex-direction: column; gap: 4px; }
   .ct-field > span {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 16px;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .ct-field input {
     height: 56px;
     border-radius: 8px;
     border: 1px solid transparent;
-    background: #f3f3f3;
+    background: var(--color-surface);
     padding: 0 16px;
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 18px;
-    color: #1c1c1c;
+    color: var(--color-ink);
     transition: border-color 0.15s, outline 0.15s;
   }
   .ct-field input:focus-visible {
@@ -199,14 +199,14 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
     border-color: var(--color-brand);
   }
   .ct-field input[aria-invalid="true"] {
-    border-color: #e54040;
+    border-color: var(--color-danger);
     background: #fdecec;
   }
   .ct-error {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 13px;
-    color: #e54040;
+    color: var(--color-danger);
     line-height: 1.2;
     min-height: 16px;
     margin: 0;
@@ -218,10 +218,10 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
     display: flex;
     gap: 8px;
     align-items: center;
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 14px;
-    color: #6b6b6b;
+    color: var(--color-muted);
     line-height: 1.4;
     cursor: pointer;
   }
@@ -232,7 +232,7 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
     height: 24px;
     border-radius: 4px;
     border: 0;
-    background: #f3f3f3;
+    background: var(--color-surface);
     flex: none;
     display: grid;
     place-items: center;
@@ -253,7 +253,7 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
     outline-offset: 2px;
   }
   .ct-consent input[aria-invalid="true"] {
-    outline: 2px solid #e54040;
+    outline: 2px solid var(--color-danger);
   }
 
   .ct-submit-row { display: flex; }
@@ -264,14 +264,14 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
     right: 24px;
     bottom: 24px;
     z-index: 100;
-    background: #1c1c1c;
+    background: var(--color-ink);
     color: #fff;
     padding: 14px 20px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 15px;
     box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.4);
@@ -286,8 +286,8 @@ const { title, email, messengers, consentText, submitLabel } = Astro.props;
     transform: translateY(0);
     pointer-events: auto;
   }
-  .toast--success { background: #1f8a3a; }
-  .toast--error { background: #c8362e; }
+  .toast--success { background: var(--color-success); }
+  .toast--error { background: var(--color-danger); }
   .toast__icon {
     width: 28px;
     height: 28px;

@@ -30,34 +30,98 @@ collections:
           - { label: "Description", name: description, widget: text }
           - { label: "OG-картинка", name: ogImage, widget: image, required: false }
 
-      - label: "Hero"
-        name: hero
+      - label: "Шапка"
+        name: header
         widget: object
         fields:
-          - { label: "Eyebrow", name: eyebrow, widget: string }
-          - { label: "Заголовок", name: title, widget: string }
-          - { label: "Буллеты", name: bullets, widget: list }
+          - { label: "Логотип", name: logo, widget: image }
+          - { label: "Подпись бренда", name: brandLabel, widget: string }
+          - label: "Навигация"
+            name: nav
+            widget: list
+            fields:
+              - { label: "Текст", name: label, widget: string }
+              - { label: "Ссылка", name: href, widget: string }
           - label: "CTA"
             name: cta
             widget: object
             fields:
               - { label: "Текст", name: label, widget: string }
               - { label: "Ссылка", name: href, widget: string }
-          - { label: "Картинка продукта", name: image, widget: image }
+
+      - label: "Hero"
+        name: hero
+        widget: object
+        fields:
+          - { label: "Заголовок", name: title, widget: string }
+          - { label: "Подзаголовок", name: subtitle, widget: text }
+          - label: "CTA"
+            name: cta
+            widget: object
+            fields:
+              - { label: "Текст", name: label, widget: string }
+              - { label: "Ссылка", name: href, widget: string }
+          - label: "Продукт"
+            name: product
+            widget: object
+            fields:
+              - { label: "Картинка", name: image, widget: image }
+              - { label: "Alt", name: alt, widget: string }
+          - label: "Мета"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Вес", name: weight, widget: string }
+              - { label: "Курс", name: course, widget: string }
+          - label: "Подпись внизу"
+            name: kicker
+            widget: object
+            fields:
+              - { label: "Заголовок", name: title, widget: string }
+              - { label: "Текст", name: body, widget: text }
 
       - label: "Intro"
         name: intro
         widget: object
         fields:
-          - { label: "Заголовок", name: title, widget: text }
-          - { label: "Текст", name: body, widget: text }
+          - { label: "Заголовок секции", name: sectionTitle, widget: text }
+          - label: "Карточка"
+            name: card
+            widget: object
+            fields:
+              - { label: "Картинка", name: image, widget: image }
+              - { label: "Alt", name: imageAlt, widget: string }
+              - { label: "Заголовок", name: title, widget: string }
+              - { label: "Текст", name: body, widget: text }
+              - label: "CTA"
+                name: cta
+                widget: object
+                fields:
+                  - { label: "Текст", name: label, widget: string }
+                  - { label: "Ссылка", name: href, widget: string }
+          - label: "Follow-up блок"
+            name: followUp
+            widget: object
+            fields:
+              - { label: "Заголовок", name: title, widget: string }
+              - { label: "Текст", name: body, widget: text }
+          - label: "Нижний блок"
+            name: bottomBlock
+            widget: object
+            fields:
+              - { label: "Заголовок", name: title, widget: string }
+              - { label: "Текст", name: body, widget: text }
+              - label: "CTA"
+                name: cta
+                widget: object
+                fields:
+                  - { label: "Текст", name: label, widget: string }
+                  - { label: "Ссылка", name: href, widget: string }
 
       - label: "Преимущества"
         name: benefits
         widget: object
         fields:
-          - { label: "Заголовок", name: title, widget: string }
-          - { label: "Картинка продукта", name: productImage, widget: image }
           - label: "Карточки"
             name: items
             widget: list
@@ -70,14 +134,20 @@ collections:
         name: composition
         widget: object
         fields:
-          - { label: "Заголовок", name: title, widget: string }
-          - { label: "Подзаголовок", name: subtitle, widget: string }
+          - { label: "Заголовок (начало)", name: titleLead, widget: string }
+          - { label: "Заголовок (акцент)", name: titleAccent, widget: string }
+          - { label: "Картинка", name: image, widget: image }
+          - label: "CTA"
+            name: cta
+            widget: object
+            fields:
+              - { label: "Текст", name: label, widget: string }
+              - { label: "Ссылка", name: href, widget: string }
           - label: "Компоненты"
             name: rows
             widget: list
             fields:
               - { label: "Название", name: name, widget: string }
-              - { label: "Дозировка", name: amount, widget: string }
               - { label: "Назначение", name: role, widget: string }
 
       - label: "Кому подходит"
@@ -85,51 +155,103 @@ collections:
         widget: object
         fields:
           - { label: "Заголовок", name: title, widget: text }
-          - { label: "Текст", name: body, widget: text }
-          - { label: "Буллеты", name: bullets, widget: list }
-          - { label: "Картинка", name: image, widget: image }
+          - { label: "Фон", name: image, widget: image }
+          - label: "Карточки"
+            name: cards
+            widget: list
+            fields:
+              - { label: "Возраст", name: age, widget: string }
+              - { label: "Текст", name: text, widget: text }
+          - { label: "Активная карточка (индекс)", name: activeIndex, widget: number, required: false, default: 1 }
 
       - label: "Сравнение"
         name: comparison
         widget: object
         fields:
           - { label: "Заголовок", name: title, widget: string }
-          - { label: "Лейбл продукта", name: productLabel, widget: string }
-          - { label: "Лейбл конкурента", name: competitorLabel, widget: string }
-          - label: "Строки"
-            name: rows
+          - label: "Параграфы описания"
+            name: description
             widget: list
+            field: { label: "Параграф", name: paragraph, widget: text }
+          - { label: "Картинка банки", name: banka, widget: image }
+          - label: "Курс"
+            name: course
+            widget: object
             fields:
-              - { label: "Свойство", name: feature, widget: string }
-              - { label: "У нас", name: product, widget: boolean, default: true }
-              - { label: "У них", name: competitor, widget: boolean, default: false }
+              - { label: "Заголовок", name: title, widget: string }
+              - { label: "Текст", name: body, widget: text }
+              - label: "CTA"
+                name: cta
+                widget: object
+                fields:
+                  - { label: "Текст", name: label, widget: string }
+                  - { label: "Ссылка", name: href, widget: string }
+          - label: "Порция"
+            name: portion
+            widget: object
+            fields:
+              - { label: "Заголовок", name: title, widget: string }
+              - { label: "Текст", name: body, widget: text }
 
       - label: "Покупка"
         name: purchase
         widget: object
         fields:
-          - { label: "Заголовок", name: title, widget: string }
+          - { label: "Заголовок продукта", name: productTitle, widget: string }
           - { label: "Цена", name: price, widget: string }
-          - { label: "Старая цена", name: oldPrice, widget: string, required: false }
-          - { label: "Примечание", name: note, widget: text }
-          - { label: "Картинка", name: image, widget: image }
-          - { label: "Текст CTA", name: ctaLabel, widget: string }
+          - { label: "Подпись", name: meta, widget: string }
+          - label: "CTA"
+            name: cta
+            widget: object
+            fields:
+              - { label: "Текст", name: label, widget: string }
+              - { label: "Ссылка", name: href, widget: string }
+          - { label: "Заголовок «Применение»", name: usageTitle, widget: string }
+          - { label: "Картинка применения", name: usageImage, widget: image }
+          - label: "Шаги применения"
+            name: usageSteps
+            widget: list
+            field: { label: "Шаг", name: step, widget: string }
 
-      - label: "Форма"
+      - label: "FAQ"
         name: faq
         widget: object
         fields:
           - { label: "Заголовок", name: title, widget: string }
-          - { label: "Подпись формы", name: formNoteLabel, widget: string }
-          - { label: "Текст кнопки", name: submitLabel, widget: string }
-          - { label: "Текст согласия", name: consentText, widget: text }
+          - label: "Вопросы"
+            name: items
+            widget: list
+            fields:
+              - { label: "Вопрос", name: q, widget: string }
+              - { label: "Ответ", name: a, widget: text, required: false }
 
       - label: "Контакты"
         name: contacts
         widget: object
         fields:
-          - { label: "Адрес", name: address, widget: string }
-          - { label: "Телефон", name: phone, widget: string }
+          - { label: "Заголовок", name: title, widget: string }
           - { label: "Email", name: email, widget: string }
-          - { label: "Подпись Telegram", name: telegramLabel, widget: string }
-          - { label: "Ссылка Telegram", name: telegramUrl, widget: string }
+          - label: "Мессенджеры"
+            name: messengers
+            widget: list
+            fields:
+              - { label: "Название", name: label, widget: string }
+              - { label: "Ссылка", name: href, widget: string }
+              - { label: "Иконка", name: icon, widget: image }
+          - { label: "Текст согласия", name: consentText, widget: text }
+          - { label: "Текст кнопки", name: submitLabel, widget: string }
+
+      - label: "Подвал"
+        name: footer
+        widget: object
+        fields:
+          - { label: "Логотип", name: logo, widget: image }
+          - { label: "Копирайт", name: copyright, widget: string }
+          - { label: "Права", name: rights, widget: string }
+          - { label: "Дисклеймер", name: disclaimer, widget: text }
+          - label: "Ссылки"
+            name: links
+            widget: list
+            fields:
+              - { label: "Текст", name: label, widget: string }
+              - { label: "Ссылка", name: href, widget: string }

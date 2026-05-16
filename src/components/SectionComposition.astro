@@ -57,8 +57,8 @@ const { titleLead, titleAccent, image, cta, rows } = Astro.props;
 <style>
   .comp-section {
     padding-top: 0;
-    padding-bottom: clamp(80px, 12vh, 160px);
-    background: #f3f3f3;
+    padding-bottom: var(--space-section-lg);
+    background: var(--color-surface);
     position: relative;
     margin-top: 0;
   }
@@ -72,10 +72,10 @@ const { titleLead, titleAccent, image, cta, rows } = Astro.props;
     grid-template-columns: 713px minmax(0, 1fr);
     gap: 80px;
     align-items: start;
-    box-shadow: 0 12px 40px -24px rgba(16, 42, 68, 0.18);
+    box-shadow: var(--shadow-card);
   }
   .comp-card__media {
-    border-radius: 16px;
+    border-radius: var(--radius-tile);
     overflow: hidden;
     background: #9ad5ef;
     width: 713px;
@@ -94,15 +94,15 @@ const { titleLead, titleAccent, image, cta, rows } = Astro.props;
     padding-top: 62px;
   }
   .comp-card__title {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 48px;
     line-height: 1.1;
     letter-spacing: -0.01em;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .comp-card__title--accent {
-    color: #3193cc;
+    color: var(--color-brand);
   }
   .comp-card__grid {
     display: grid;
@@ -118,18 +118,18 @@ const { titleLead, titleAccent, image, cta, rows } = Astro.props;
     gap: 4px;
   }
   .comp-item__name {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 24px;
     line-height: 1.2;
-    color: #1c1c1c;
+    color: var(--color-ink);
   }
   .comp-item__role {
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 16px;
     line-height: 1.2;
-    color: #6b6b6b;
+    color: var(--color-muted);
   }
   .comp-cta {
     margin-top: 8px;
@@ -164,7 +164,7 @@ const { titleLead, titleAccent, image, cta, rows } = Astro.props;
       flex-direction: column;
       padding: 16px;
       gap: 16px;
-      border-radius: 16px;
+      border-radius: var(--radius-mobile);
     }
     .comp-card__media {
       order: 2;

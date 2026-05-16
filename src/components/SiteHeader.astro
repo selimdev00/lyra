@@ -11,10 +11,7 @@ interface Props {
 const { logo, brandLabel, nav, cta } = Astro.props;
 ---
 
-<header
-  data-site-header
-  class="site-header fixed inset-x-0 top-0 z-40 transition-colors duration-300"
->
+<header data-site-header class="site-header">
   <div class="site-header__inner container-page">
     <button class="site-header__burger" type="button" data-menu-toggle aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-nav">
       <svg class="site-header__icon site-header__icon--burger" width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true">
@@ -31,7 +28,7 @@ const { logo, brandLabel, nav, cta } = Astro.props;
 
     <nav aria-label="Меню" class="site-header__nav">
       {nav.map((item) => (
-        <a href={item.href} class="px-1 py-2 transition-colors">{item.label}</a>
+        <a href={item.href} class="site-header__nav-link">{item.label}</a>
       ))}
     </nav>
 
@@ -42,7 +39,7 @@ const { logo, brandLabel, nav, cta } = Astro.props;
     </a>
   </div>
 
-  <div class="site-header__drawer" id="mobile-nav" data-menu-drawer hidden>
+  <div class="site-header__drawer" id="mobile-nav" data-menu-drawer aria-hidden="true" inert>
     <nav aria-label="Мобильное меню" class="site-header__drawer-nav">
       {nav.map((item) => (
         <a href={item.href} data-menu-link>{item.label}</a>
@@ -53,8 +50,17 @@ const { logo, brandLabel, nav, cta } = Astro.props;
 
 <style>
   .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 40;
     background: transparent;
     border-bottom: 1px solid transparent;
+    transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+  }
+  .site-header__nav-link {
+    padding: 8px 4px;
+    transition: color 0.2s;
   }
   .site-header__inner {
     display: flex;
@@ -69,7 +75,7 @@ const { logo, brandLabel, nav, cta } = Astro.props;
     display: flex;
     align-items: center;
     gap: 32px;
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 20px;
     line-height: 1.2;
@@ -82,8 +88,6 @@ const { logo, brandLabel, nav, cta } = Astro.props;
     display: none;
     width: 40px;
     height: 40px;
-    align-items: center;
-    justify-content: center;
     background: transparent;
     border: 0;
     padding: 0;
@@ -91,9 +95,6 @@ const { logo, brandLabel, nav, cta } = Astro.props;
     cursor: pointer;
     position: relative;
   }
-  .site-header__icon--close { display: none; }
-  .site-header__burger[aria-expanded="true"] .site-header__icon--burger { display: none; }
-  .site-header__burger[aria-expanded="true"] .site-header__icon--close { display: block; }
   .site-header__burger[aria-expanded="true"],
   .site-header.is-scrolled .site-header__burger[aria-expanded="true"] {
     color: #fff !important;
@@ -117,12 +118,14 @@ const { logo, brandLabel, nav, cta } = Astro.props;
   }
   .site-header.is-scrolled .site-header__nav a { color: var(--color-ink-soft); }
   .site-header.is-scrolled .site-header__nav a:hover { color: var(--color-brand); }
-  .site-header.is-scrolled .site-header__cta span {
+  .site-header.is-scrolled :global(.site-header__cta .cta-btn__label),
+  .site-header.is-scrolled :global(.site-header__cta .cta-btn__icon) {
     background: var(--color-brand) !important;
     color: #fff !important;
   }
-  .site-header.is-scrolled .site-header__cta:hover span {
-    background: #2680b6 !important;
+  .site-header.is-scrolled :global(.site-header__cta:hover .cta-btn__label),
+  .site-header.is-scrolled :global(.site-header__cta:hover .cta-btn__icon) {
+    background: var(--color-brand-hover) !important;
   }
   .site-header.is-scrolled .site-header__burger,
   .site-header.is-scrolled .site-header__cart { color: var(--color-brand-deep); }
@@ -139,8 +142,21 @@ const { logo, brandLabel, nav, cta } = Astro.props;
     align-items: flex-start;
     justify-content: center;
     padding: 96px 24px 48px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.3s var(--ease-out-soft),
+                transform 0.3s var(--ease-out-soft),
+                visibility 0s linear 0.3s;
   }
-  .site-header__drawer[hidden] { display: none; }
+  .site-header__drawer.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.3s var(--ease-out-soft),
+                transform 0.3s var(--ease-out-soft),
+                visibility 0s linear 0s;
+  }
   .site-header__drawer-nav {
     display: flex;
     flex-direction: column;
@@ -148,7 +164,7 @@ const { logo, brandLabel, nav, cta } = Astro.props;
     width: 100%;
     max-width: 320px;
     text-align: left;
-    font-family: "Onest", sans-serif;
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 22px;
   }
@@ -156,13 +172,55 @@ const { logo, brandLabel, nav, cta } = Astro.props;
     color: #fff;
     padding: 12px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s var(--ease-out-soft),
+                transform 0.35s var(--ease-out-soft);
+  }
+  .site-header__drawer.is-open .site-header__drawer-nav a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .site-header__drawer.is-open .site-header__drawer-nav a:nth-child(1) { transition-delay: 0.12s; }
+  .site-header__drawer.is-open .site-header__drawer-nav a:nth-child(2) { transition-delay: 0.18s; }
+  .site-header__drawer.is-open .site-header__drawer-nav a:nth-child(3) { transition-delay: 0.24s; }
+  .site-header__drawer.is-open .site-header__drawer-nav a:nth-child(4) { transition-delay: 0.30s; }
+  .site-header__drawer.is-open .site-header__drawer-nav a:nth-child(5) { transition-delay: 0.36s; }
+  .site-header__drawer.is-open .site-header__drawer-nav a:nth-child(6) { transition-delay: 0.42s; }
+
+  .site-header__icon--burger,
+  .site-header__icon--close {
+    transition: opacity 0.25s var(--ease-out-soft),
+                transform 0.3s var(--ease-out-soft);
+  }
+  .site-header__burger[aria-expanded="true"] .site-header__icon--burger {
+    opacity: 0;
+    transform: rotate(-90deg);
+  }
+  .site-header__burger[aria-expanded="false"] .site-header__icon--close {
+    opacity: 0;
+    transform: rotate(90deg);
+  }
+  .site-header__burger .site-header__icon--burger,
+  .site-header__burger .site-header__icon--close {
+    grid-area: 1 / 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header__drawer,
+    .site-header__drawer.is-open,
+    .site-header__drawer-nav a,
+    .site-header__icon--burger,
+    .site-header__icon--close {
+      transition: none !important;
+    }
   }
 
   @media (max-width: 1023px) {
     .site-header__inner { padding-block: 8px; padding-inline: 16px; }
     .site-header__nav { display: none !important; }
-    .site-header__burger,
-    .site-header__cart { display: inline-flex; }
+    .site-header__burger { display: grid; place-items: center; }
+    .site-header__cart { display: inline-flex; align-items: center; justify-content: center; }
     .site-header__logo { height: 28px; }
     .site-header__brand { flex: 1; justify-content: center; }
   }
@@ -181,8 +239,10 @@ const { logo, brandLabel, nav, cta } = Astro.props;
   if (toggle && drawer) {
     const setOpen = (open: boolean) => {
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      if (open) drawer.removeAttribute("hidden");
-      else drawer.setAttribute("hidden", "");
+      drawer.classList.toggle("is-open", open);
+      drawer.setAttribute("aria-hidden", open ? "false" : "true");
+      if (open) drawer.removeAttribute("inert");
+      else drawer.setAttribute("inert", "");
       document.body.style.overflow = open ? "hidden" : "";
       header?.classList.toggle("is-menu-open", open);
     };
@@ -193,7 +253,7 @@ const { logo, brandLabel, nav, cta } = Astro.props;
       a.addEventListener("click", () => setOpen(false))
     );
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") setOpen(false);
     });
   }
 </script>

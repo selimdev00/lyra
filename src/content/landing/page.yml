@@ -53,8 +53,6 @@ intro:
       href: "#faq"
 
 benefits:
-  title: "Что вы получаете"
-  productImage: "/img/banka.webp"
   items:
     - icon: "/img/icon-joints.svg"
       title: "Питание суставов"
@@ -136,7 +134,6 @@ comparison:
 
 purchase:
   productTitle: "«Complex SW СУСТАВЫ» для опорно-двигательного аппарата"
-  productImage: "/img/banka.webp"
   price: "3 900 ₽"
   meta: "420г. / 30 порций"
   cta:
