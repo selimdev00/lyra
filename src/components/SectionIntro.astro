@@ -290,7 +290,7 @@ const leftBenefits = benefits.filter((_, i) => i % 2 === 1);
     align-items: flex-end;
     gap: 480px;
   }
-  .intro-grid__right :global(.bcard:first-of-type) {
+  .intro-grid__right > *:first-child {
     margin-top: clamp(180px, 26vh, 400px);
   }
   .intro-banka-layer {
