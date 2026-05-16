@@ -1,0 +1,81 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  revision: string;
+}
+const { title, description, heading, revision } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="legal">
+    <article class="container-page legal-article">
+      <p class="legal-back"><a href="/">← На главную</a></p>
+      <h1>{heading}</h1>
+      <p class="legal-meta">{revision}</p>
+
+      <slot />
+
+      <p class="legal-disclaimer">
+        Текст приведён в демонстрационных целях для тестового задания и не является
+        действующим юридическим документом. Финальная редакция согласовывается
+        юридическим отделом ООО «Оптисалт» до публикации.
+      </p>
+    </article>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .legal {
+    background: #fff;
+    padding-block: clamp(40px, 8vh, 80px);
+  }
+  .legal-article {
+    max-width: 900px;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+  }
+  .legal-back a {
+    color: var(--color-muted);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .legal-back a:hover { color: var(--color-brand); }
+  .legal h1 {
+    margin-top: 16px;
+    font-weight: 500;
+    font-size: clamp(28px, 3.2vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .legal-meta { color: var(--color-muted); font-size: 14px; margin-top: 8px; }
+  .legal h2 {
+    margin-top: 40px;
+    font-weight: 500;
+    font-size: clamp(20px, 1.8vw, 24px);
+    line-height: 1.2;
+  }
+  .legal p, .legal li {
+    margin-top: 16px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+  .legal ul {
+    padding-left: 24px;
+    margin-top: 8px;
+  }
+  .legal-disclaimer {
+    margin-top: 48px;
+    padding: 16px;
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-muted);
+    font-size: 14px !important;
+  }
+  .legal a { color: var(--color-brand); }
+</style>

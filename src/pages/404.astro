@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Страница не найдена - Complex SW СУСТАВЫ | FMF"
+  description="К сожалению, такой страницы нет. Вернитесь на главную и продолжите знакомство с Complex SW СУСТАВЫ."
+>
+  <main class="err">
+    <section class="container-page err-card">
+      <p class="err-code">404</p>
+      <h1 class="err-title">Страница не найдена</h1>
+      <p class="err-body">
+        Возможно, ссылка устарела или вы перешли по неверному адресу. Попробуйте вернуться на главную.
+      </p>
+      <a class="err-cta" href="/">На главную</a>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .err {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+    padding-block: 80px;
+  }
+  .err-card {
+    max-width: 720px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .err-code {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(80px, 14vw, 160px);
+    line-height: 1;
+    color: var(--color-brand);
+    letter-spacing: -0.02em;
+  }
+  .err-title {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.1;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .err-body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--color-muted);
+    max-width: 520px;
+    margin: 0;
+  }
+  .err-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    background: var(--color-brand);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .err-cta:hover { background: var(--color-brand-dark); }
+
+  @media (max-width: 1023px) {
+    .err {
+      padding-inline: 16px;
+      padding-block: 48px;
+    }
+    .err-body { font-size: 16px; }
+  }
+</style>
