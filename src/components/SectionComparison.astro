@@ -179,6 +179,21 @@ const { title, description, banka, course, portion } = Astro.props;
     color: #6b6b6b;
   }
 
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .cmp-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 440px) minmax(0, 1fr);
+      column-gap: 24px;
+    }
+    .cmp-banka { max-width: 360px; }
+    .cmp-head { gap: 24px; }
+    .cmp-title { font-size: 40px; }
+    .cmp-desc { font-size: 16px; }
+    .cmp-course__title,
+    .cmp-portion__title { font-size: 26px; }
+    .cmp-course__body,
+    .cmp-portion__body { font-size: 16px; }
+  }
+
   @media (max-width: 1023px) {
     .cmp-section {
       padding-block: 32px;
