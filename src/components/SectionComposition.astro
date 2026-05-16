@@ -102,7 +102,7 @@ const { titleLead, titleAccent, image, cta, rows } = Astro.props;
     color: #1c1c1c;
   }
   .comp-card__title--accent {
-    color: #2680b6;
+    color: #3193cc;
   }
   .comp-card__grid {
     display: grid;
@@ -133,6 +133,24 @@ const { titleLead, titleAccent, image, cta, rows } = Astro.props;
   }
   .comp-cta {
     margin-top: 8px;
+  }
+
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .comp-card {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 40px;
+      gap: 40px;
+    }
+    .comp-card__media {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 713 / 480;
+      max-height: 480px;
+    }
+    .comp-card__body { padding-top: 0; }
+    .comp-card__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   @media (max-width: 1023px) {
